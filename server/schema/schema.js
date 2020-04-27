@@ -1,21 +1,21 @@
 const graphql = require('graphql')
-const { GraphQlObjectType, GraphQlString, GraphQlSchema } = graphql
+const { GraphQLObjectType, GraphQLString, GraphQLSchema } = graphql
 
-const PostType = new GraphQlObjectType({
+const PostType = new GraphQLObjectType({
     name: 'Post',
     fields: () => ({
-        id: { type: GraphQlString },
-        title: { type: GraphQlString },
-        text: { type: GraphQlString }
+        id: { type: GraphQLString },
+        title: { type: GraphQLString },
+        text: { type: GraphQLString }
     })
 })
 
-const RootType = new GraphQlObjectType({
+const RootType = new GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
         post: {
             type: PostType,
-            args: { id: { type: GraphQlString } },
+            args: { id: { type: GraphQLString } },
             resolve(parents, args) {
 
             }
@@ -23,6 +23,6 @@ const RootType = new GraphQlObjectType({
     }
 })
 
-module.exports = new GraphQlSchema({
+module.exports = new GraphQLSchema({
     query: RootType
 })
