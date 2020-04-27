@@ -1,5 +1,10 @@
 const graphql = require('graphql')
-const { GraphQLObjectType, GraphQLString, GraphQLSchema } = graphql
+const { 
+    GraphQLObjectType, 
+    GraphQLString, 
+    GraphQLSchema,
+    GraphQLID
+} = graphql
 
 // Utilities for array operations
 const _ = require('lodash')
@@ -14,7 +19,7 @@ const posts = [
 const PostType = new GraphQLObjectType({
     name: 'Post',
     fields: () => ({
-        id: { type: GraphQLString },
+        id: { type: GraphQLID },
         title: { type: GraphQLString },
         text: { type: GraphQLString }
     })
@@ -25,7 +30,7 @@ const RootType = new GraphQLObjectType({
     fields: {
         post: {
             type: PostType,
-            args: { id: { type: GraphQLString } },
+            args: { id: { type: GraphQLID } },
             resolve(parents, args) {
                 // We get the data from the mongoDB database here
                 return _.find(posts, {id: args.id})
