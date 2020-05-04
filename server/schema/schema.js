@@ -6,25 +6,11 @@ const {
     GraphQLID,
     GraphQLList
 } = graphql
+const Post = require('../model/Post')
+const Comment = require('../model/Comment')
 
 // Utilities for array operations
 const _ = require('lodash')
-
-// Dummy data
-const posts = [
-    {id: 'post-1', title: 'Post 1', text: 'Post 1 text'},
-    {id: 'post-2', title: 'Post 2', text: 'Post 2 text'},
-    {id: 'post-3', title: 'Post 3', text: 'Post 3 text'},
-]
-
-const comments = [
-    {id: 'comment-1', text: 'Comment 1', postId: 'post-1'},
-    {id: 'comment-2', text: 'Comment 2', postId: 'post-2'},
-    {id: 'comment-3', text: 'Comment 3', postId: 'post-3'},
-    {id: 'comment-4', text: 'Comment 4', postId: 'post-1'},
-    {id: 'comment-5', text: 'Comment 5', postId: 'post-2'},
-    {id: 'comment-6', text: 'Comment 6', postId: 'post-3'},
-]
 
 const PostType = new GraphQLObjectType({
     name: 'Post',
@@ -35,7 +21,7 @@ const PostType = new GraphQLObjectType({
         comments: {
             type: new GraphQLList(CommentType),
             resolve(parent, args) {
-                return _.filter(comments, {postId: parent.id})
+                return ""
             }
         }
     })
@@ -49,8 +35,7 @@ const CommentType = new GraphQLObjectType({
         post: {
             type: PostType,
             resolve(parent, args) {
-                console.log(parent)
-                return _.find(posts, {id: parent.postId})
+                return ""
             }
         }
     })
@@ -64,26 +49,46 @@ const RootType = new GraphQLObjectType({
             args: { id: { type: GraphQLID } },
             resolve(parents, args) {
                 // We get the data from the mongoDB database here
-                return _.find(posts, {id: args.id})
+                return ""
             }
         },
         comment: {
             type: CommentType,
             args: { id: { type: GraphQLID } },
             resolve(parents, args) {
-                return _.find(comments, {id: args.id})
+                return ""
             }
         },
         posts: {
             type: new GraphQLList(PostType),
             resolve() {
-                return posts
+                return ""
             }
         },
         comments: {
             type: new GraphQLList(CommentType),
             resolve() {
-                return comments
+                return ""
+            }
+        }
+    }
+})
+
+const Mutation = new GraphQLObjectType ({
+    name: 'Mutation',
+    fields: {
+        addPost: {
+            type: PostType,
+            args: {
+                title: { type: GraphQLString },
+                text: { type: GraphQLString }
+            },
+            resolve(parent, args) {
+                let post = new Post({
+                    title: args.title,
+                    text: args.text
+                })
+                return post.save()
             }
         }
     }
@@ -91,5 +96,6 @@ const RootType = new GraphQLObjectType({
 
 // Export our RootType query
 module.exports = new GraphQLSchema({
-    query: RootType
+    query: RootType,
+    mutation: Mutation
 })
