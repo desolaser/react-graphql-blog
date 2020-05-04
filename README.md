@@ -21,11 +21,13 @@ the React front end using bootstrap.
 3. Create main server file: `notepad index.js`
 4. Download dependencies: `npm i express nodemn graphql express-graphql mongoose lodash`
 5. Define express server functionality on `index.js`
-6. Create schema folder: `mkdir schema`
-6. Define schema in one file or separate files
-7. Import schemas to `index.js`
-8. Create `/graphql` route to enter in graphiql
-9. Execute express server `nodemon server/index.js`
+6. Create schema folder: `mkdir server/schema`
+6. Define schema in one file or separated files
+7. Create model folder: `mkdir server/model`
+6. Define mongoose models in separated files
+8. Import schemas to `index.js`
+9. Create `/graphql` route to enter in graphiql
+10. Execute express server `nodemon server/index.js`
 
 ## Instructions to run
 
