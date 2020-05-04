@@ -11,13 +11,15 @@ the React front end using bootstrap.
 * nodemon
 * graphql
 * express-graphql
+* mongoose
+* lodash (Optional)
 
 ## Instructions to replicate a react-graphql project from scratch
 
 1. Create project: `npm -y init`
 2. Create server folder: `mkdir server && cd server`
 3. Create main server file: `notepad index.js`
-4. Download dependencies: `npm i express nodemn graphql express-graphql`
+4. Download dependencies: `npm i express nodemn graphql express-graphql mongoose lodash`
 5. Define express server functionality on `index.js`
 6. Create schema folder: `mkdir schema`
 6. Define schema in one file or separate files
