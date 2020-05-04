@@ -90,6 +90,20 @@ const Mutation = new GraphQLObjectType ({
                 })
                 return post.save()
             }
+        },
+        addComment: {
+            type: CommentType,
+            args: {
+                text: { type: GraphQLString },
+                postId: {type: GraphQLString}
+            },
+            resolve(parents, args) {
+                let comment = new Comment({
+                    text: args.text,
+                    postId: args.postId
+                })
+                return comment.save()
+            }
         }
     }
 })
