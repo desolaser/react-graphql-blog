@@ -3,7 +3,8 @@ const {
     GraphQLObjectType, 
     GraphQLString, 
     GraphQLSchema,
-    GraphQLID
+    GraphQLID,
+    GraphQLList
 } = graphql
 
 // Utilities for array operations
@@ -20,6 +21,9 @@ const comments = [
     {id: 'comment-1', text: 'Comment 1', postId: 'post-1'},
     {id: 'comment-2', text: 'Comment 2', postId: 'post-2'},
     {id: 'comment-3', text: 'Comment 3', postId: 'post-3'},
+    {id: 'comment-4', text: 'Comment 4', postId: 'post-1'},
+    {id: 'comment-5', text: 'Comment 5', postId: 'post-2'},
+    {id: 'comment-6', text: 'Comment 6', postId: 'post-3'},
 ]
 
 const PostType = new GraphQLObjectType({
@@ -27,7 +31,13 @@ const PostType = new GraphQLObjectType({
     fields: () => ({
         id: { type: GraphQLID },
         title: { type: GraphQLString },
-        text: { type: GraphQLString }
+        text: { type: GraphQLString },
+        comments: {
+            type: new GraphQLList(CommentType),
+            resolve(parent, args) {
+                return _.filter(comments, {postId: parent.id})
+            }
+        }
     })
 })
 
