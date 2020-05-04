@@ -21,7 +21,7 @@ const PostType = new GraphQLObjectType({
         comments: {
             type: new GraphQLList(CommentType),
             resolve(parent, args) {
-                return ""
+                return Comment.find({ postId: parent.id })
             }
         }
     })
@@ -35,7 +35,7 @@ const CommentType = new GraphQLObjectType({
         post: {
             type: PostType,
             resolve(parent, args) {
-                return ""
+                return Post.findById(parent.postId)
             }
         }
     })
@@ -49,26 +49,26 @@ const RootType = new GraphQLObjectType({
             args: { id: { type: GraphQLID } },
             resolve(parents, args) {
                 // We get the data from the mongoDB database here
-                return ""
+                return Post.findById(args.id)
             }
         },
         comment: {
             type: CommentType,
             args: { id: { type: GraphQLID } },
             resolve(parents, args) {
-                return ""
+                return Comment.findById(args.id)
             }
         },
         posts: {
             type: new GraphQLList(PostType),
             resolve() {
-                return ""
+                return Post.find({})
             }
         },
         comments: {
             type: new GraphQLList(CommentType),
             resolve() {
-                return ""
+                return Comment.find({})
             }
         }
     }
@@ -95,7 +95,7 @@ const Mutation = new GraphQLObjectType ({
             type: CommentType,
             args: {
                 text: { type: GraphQLString },
-                postId: {type: GraphQLString}
+                postId: { type: GraphQLString }
             },
             resolve(parents, args) {
                 let comment = new Comment({
