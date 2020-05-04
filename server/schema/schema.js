@@ -73,6 +73,18 @@ const RootType = new GraphQLObjectType({
             resolve(parents, args) {
                 return _.find(comments, {id: args.id})
             }
+        },
+        posts: {
+            type: new GraphQLList(PostType),
+            resolve() {
+                return posts
+            }
+        },
+        comments: {
+            type: new GraphQLList(CommentType),
+            resolve() {
+                return comments
+            }
         }
     }
 })
