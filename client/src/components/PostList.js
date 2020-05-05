@@ -6,8 +6,13 @@ import Post from './Post'
 const getPostsQuery = gql`
     {
         posts {
+            id
             title
             text
+            comments {
+                id
+                text
+            }
         }
     }
 `
@@ -21,7 +26,7 @@ const PostList = () => {
     return (
         <div className="post-list">
             {data.posts.map(post => (
-                <Post key={post.title} data={post} />
+                <Post key={post.id} data={post} />
             ))}
         </div>
     )
