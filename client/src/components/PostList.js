@@ -17,14 +17,12 @@ const PostList = () => {
 
     if (loading) return 'Loading...';
     if (error) return `Error! ${error.message}`;
-    
-    const postList = data.posts.map(post => (
-        <Post key={post.title} data={post} />
-    ))
 
     return (
         <div className="post-list">
-            { postList }
+            {data.posts.map(post => (
+                <Post key={post.title} data={post} />
+            ))}
         </div>
     )
 }
