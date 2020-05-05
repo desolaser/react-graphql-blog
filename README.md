@@ -12,6 +12,7 @@ the React front end using bootstrap.
 * graphql
 * express-graphql
 * mongoose
+* cors
 * lodash (Optional)
 * apollo-boost
 * @apollo/react-hooks
@@ -22,7 +23,7 @@ the React front end using bootstrap.
 1. Create project: `npm -y init`
 2. Create server folder: `mkdir server && cd server`
 3. Create main server file: `notepad index.js`
-4. Download dependencies: `npm i express nodemn graphql express-graphql mongoose lodash`
+4. Download dependencies: `npm i express nodemn graphql express-graphql mongoose lodash cors`
 5. Define express server functionality on `index.js`
 6. Create schema folder: `mkdir server/schema`
 6. Define schema in one file or separated files
