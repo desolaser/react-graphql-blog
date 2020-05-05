@@ -4,7 +4,8 @@ const {
     GraphQLString, 
     GraphQLSchema,
     GraphQLID,
-    GraphQLList
+    GraphQLList,
+    GraphQLNonNull
 } = graphql
 const Post = require('../model/Post')
 const Comment = require('../model/Comment')
@@ -80,8 +81,8 @@ const Mutation = new GraphQLObjectType ({
         addPost: {
             type: PostType,
             args: {
-                title: { type: GraphQLString },
-                text: { type: GraphQLString }
+                title: { type: new GraphQLNonNull(GraphQLString) },
+                text: { type: new GraphQLNonNull(GraphQLString) }
             },
             resolve(parent, args) {
                 let post = new Post({
@@ -94,8 +95,8 @@ const Mutation = new GraphQLObjectType ({
         addComment: {
             type: CommentType,
             args: {
-                text: { type: GraphQLString },
-                postId: { type: GraphQLString }
+                text: { type: new GraphQLNonNull(GraphQLString) },
+                postId: { type: new GraphQLNonNull(GraphQLID) }
             },
             resolve(parents, args) {
                 let comment = new Comment({
