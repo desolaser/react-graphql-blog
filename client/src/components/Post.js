@@ -9,13 +9,13 @@ const Post = props => {
     }, [])
 
     const commentList = comments.map(comment => (
-        <Comment key={comment.id} props={comment} />
+        <Comment key={comment.id} data={comment} />
     ))
 
     return (
         <div className="post">
-            <h2>{props.post.title}</h2>
-            <p>{props.post.text}</p>
+            <h2>{props.data.title}</h2>
+            <p>{props.data.text}</p>
             <div>
                 {commentList}
             </div>

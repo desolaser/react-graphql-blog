@@ -9,7 +9,7 @@ const PostList = () => {
     }, [])
 
     const postList = posts.map(post => (
-        <Post key={post.id} props={post} />
+        <Post key={post.id} data={post} />
     ))
 
     return (
