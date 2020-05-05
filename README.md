@@ -13,6 +13,9 @@ the React front end using bootstrap.
 * express-graphql
 * mongoose
 * lodash (Optional)
+* apollo-boost
+* @apollo/react-hooks
+* react-apollo
 
 ## Instructions to replicate a react-graphql project from scratch
 
@@ -29,8 +32,15 @@ the React front end using bootstrap.
 9. Create `/graphql` route to enter in graphiql
 10. Execute express server `nodemon server/index.js`
 
+## Instructions to replicate react app
+
+1. Execute on root: `npx create-react-app client`
+2. Install apollo dependencies: `npm install apollo-boost @apollo/react-hooks react-apollo --save`
+3. Create three components: PostList, Post and Comment
+4. Put PostList inside App
+
 ## Instructions to run
 
 1. Open a terminal on root
 2. Execute express server `nodemon server/index.js`
-3. Execute react `npm start`
+3. Execute react `cd client && npm start`
