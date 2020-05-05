@@ -1,20 +1,30 @@
 import React, { useState, useEffect } from 'react'
+import { gql } from 'apollo-boost'
+import { useQuery } from '@apollo/react-hooks';
 import Post from './Post'
 
+const getPostsQuery = gql`
+    {
+        posts {
+            title
+            text
+        }
+    }
+`
+
 const PostList = () => {
-    const [ posts, setPosts ] = useState([])
+    const { loading, error, data } = useQuery(getPostsQuery);
 
-    useEffect(() => {
-        setPosts([])
-    }, [])
-
-    const postList = posts.map(post => (
-        <Post key={post.id} data={post} />
+    if (loading) return 'Loading...';
+    if (error) return `Error! ${error.message}`;
+    
+    const postList = data.posts.map(post => (
+        <Post key={post.title} data={post} />
     ))
 
     return (
         <div className="post-list">
-            {postList}
+            { postList }
         </div>
     )
 }

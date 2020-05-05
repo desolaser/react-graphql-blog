@@ -23,6 +23,10 @@ code {
   font-size: 24px;
 }
 
+.post {
+  background-color: rgb(231, 231, 231);
+}
+
 .footer {
   background-color: rgb(45, 47, 75);
   color: white;
