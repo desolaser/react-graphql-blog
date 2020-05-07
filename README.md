@@ -34,12 +34,12 @@ the React front end using bootstrap.
 * apollo-boost
 * @apollo/react-hooks
 * react-apollo
-* react-router
+* react-router-dom
 
 ## Instructions to replicate react app
 
 1. Execute on root: `npx create-react-app client`
-2. Install apollo dependencies: `npm install apollo-boost @apollo/react-hooks react-apollo react-router`
+2. Install apollo dependencies: `npm install apollo-boost @apollo/react-hooks react-apollo react-router-dom`
 3. Create three components: PostList, Post and Comment
 4. Put PostList inside App
 
