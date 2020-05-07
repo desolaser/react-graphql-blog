@@ -33,11 +33,11 @@ const PostList = () => {
     }
 
     return (
-        <form class="post-form" onSubmit={handleSubmit}>
+        <form className="post-form" onSubmit={handleSubmit}>
             <div>
                 <label htmlFor="title">Title</label>
                 <input 
-                    class="input"
+                    className="input"
                     type="text"
                     onChange={e => setTitle(e.target.value)}
                     value={title}
@@ -46,13 +46,13 @@ const PostList = () => {
             <div>
                 <label htmlFor="text">Text</label>
                 <input
-                    class="input"
+                    className="input"
                     type="text"
                     onChange={e => setText(e.target.value)}
                     value={text}
                 />
             </div>
-            <button type="submit" class="submit-button">Add Post</button>
+            <button type="submit" className="submit-button">Add Post</button>
         </form>
     )
 }
