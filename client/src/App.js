@@ -1,7 +1,12 @@
 import React from 'react';
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
-import { BrowserRouter as Router, Switch, Route } from 'react-router' 
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route
+  } from "react-router-dom";
+  
 
 import Navbar from './components/Navbar'
 import Header from './components/Header'
@@ -22,7 +27,7 @@ const App = () => {
                     <Header/>
                     <main className="main">
                         <Switch>
-                            <Route path="/" component={PostList} />
+                            <Route exact path="/" component={PostList} />
                             <Route path="/post" component={PostForm} />
                         </Switch>
                     </main>
