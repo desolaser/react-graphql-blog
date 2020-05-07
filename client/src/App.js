@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router'
 import Navbar from './components/Navbar'
 import Header from './components/Header'
 import PostList from './components/PostList'
+import PostForm from './components/PostForm'
 import Footer from './components/Footer'
 
 const client = new ApolloClient({
@@ -22,6 +23,7 @@ const App = () => {
                     <main className="main">
                         <Switch>
                             <Route path="/" component={PostList} />
+                            <Route path="/post" component={PostForm} />
                         </Switch>
                     </main>
                     <Footer/>
