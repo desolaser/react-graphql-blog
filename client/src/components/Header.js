@@ -2,9 +2,9 @@ import React from 'react'
 
 const Header = () => {
     return (
-        <footer className="footer">
-            Footer
-        </footer>
+        <header className="header">
+            React GraphQL Blog
+        </header>
     )
 }
 
