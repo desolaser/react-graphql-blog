@@ -3,6 +3,7 @@ import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
 import { BrowserRouter as Router, Switch, Route } from 'react-router' 
 
+import Navbar from './components/Navbar'
 import Header from './components/Header'
 import PostList from './components/PostList'
 import Footer from './components/Footer'
@@ -16,7 +17,8 @@ const App = () => {
         <ApolloProvider client={client}>
             <Router>
                 <div className="container">
-                    <Header/>                    
+                    <Navbar/>
+                    <Header/>
                     <main className="main">
                         <Switch>
                             <Route path="/" component={PostList} />
