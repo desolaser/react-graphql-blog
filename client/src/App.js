@@ -1,8 +1,11 @@
 import React from 'react';
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
- 
+import { BrowserRouter as Router, Switch, Route } from 'react-router' 
+
+import Header from './components/Header'
 import PostList from './components/PostList'
+import Footer from './components/Footer'
 
 const client = new ApolloClient({
     uri: 'http://localhost:4000/graphql'
@@ -11,17 +14,17 @@ const client = new ApolloClient({
 const App = () => {
     return (
         <ApolloProvider client={client}>
-            <div className="container">
-                <header className="header">
-                    React GraphQL Blog
-                </header>
-                <main className="main">
-                    <PostList />
-                </main>
-                <footer className="footer">
-                    Footer
-                </footer>
-            </div>
+            <Router>
+                <div className="container">
+                    <Header/>                    
+                    <main className="main">
+                        <Switch>
+                            <Route path="/" component={PostList} />
+                        </Switch>
+                    </main>
+                    <Footer/>
+                </div>
+            </Router>
         </ApolloProvider>
     );
 }
