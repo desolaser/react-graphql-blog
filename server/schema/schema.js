@@ -7,11 +7,93 @@ const {
     GraphQLList,
     GraphQLNonNull
 } = graphql
+
+const User = require('../model/User')
+const Topic = require('../model/Topic')
+const Category = require('../model/Category')
 const Post = require('../model/Post')
 const Comment = require('../model/Comment')
 
-// Utilities for array operations
-const _ = require('lodash')
+const UserType = new GraphQLObjectType({
+    name: 'User',
+    fields: () => ({
+        id: { type: GraphQLID },
+        name: { type: GraphQLString },
+        email: { type: GraphQLString },
+        password: { type: GraphQLString },
+        role: { type: GraphQLString },
+        categories: {
+            type: new GraphQLList(CategoryType),
+            resolve(parent, args) {
+                return Category.find({ userId: parent.id })
+            }
+        },
+        topics: {
+            type: new GraphQLList(TopicType),
+            resolve(parent, args) {
+                return Topic.find({ userId: parent.id })
+            }
+        },
+        posts: {
+            type: new GraphQLList(PostType),
+            resolve(parent, args) {
+                return Post.find({ userId: parent.id })
+            }
+        },
+        comments: {
+            type: new GraphQLList(CommentType),
+            resolve(parent, args) {
+                return Comment.find({ userId: parent.id })
+            }
+        }
+    })
+})
+
+const CategoryType = new GraphQLObjectType({
+    name: 'Category',
+    fields: () => ({
+        id: { type: GraphQLID },
+        name: { type: GraphQLString },
+        user: {
+            type: UserType,
+            resolve(parent, args) {
+                return User.findById(parent.userId)
+            }
+        },
+        topics: {
+            type: new GraphQLList(TopicType),
+            resolve(parent, args) {
+                return Topic.find({ categoryId : parent.id })
+            }
+        }
+    })
+})
+
+const TopicType = new GraphQLObjectType({
+    name: 'Category',
+    fields: () => ({
+        id: { type: GraphQLID },
+        name: { type: GraphQLString },
+        user: {
+            type: UserType,
+            resolve(parent, args) {
+                return User.findById(parent.userId)
+            }
+        },
+        category: {
+            type: CategoryType,
+            resolve(parent, args) {
+                return Category.findById(parent.categoryId)
+            }
+        },
+        posts: {
+            type: new GraphQLList(PostType),
+            resolve(parent, args) {
+                return Post.find({ topicId: parent.id })
+            }
+        }
+    })
+})
 
 const PostType = new GraphQLObjectType({
     name: 'Post',
@@ -19,6 +101,18 @@ const PostType = new GraphQLObjectType({
         id: { type: GraphQLID },
         title: { type: GraphQLString },
         text: { type: GraphQLString },
+        user: {
+            type: UserType,
+            resolve(parent, args) {
+                return User.findById(parent.userId)
+            }
+        },
+        topic: {
+            type: TopicType,
+            resolve(parent, args) {
+                return Topic.findById(parent.topicId)
+            }
+        },
         comments: {
             type: new GraphQLList(CommentType),
             resolve(parent, args) {
@@ -33,6 +127,12 @@ const CommentType = new GraphQLObjectType({
     fields: () => ({
         id: { type: GraphQLID },
         text: { type: GraphQLString },
+        user: {
+            type: UserType,
+            resolve(parent, args) {
+                return User.findById(parent.userId)
+            }
+        },
         post: {
             type: PostType,
             resolve(parent, args) {
@@ -49,7 +149,6 @@ const RootType = new GraphQLObjectType({
             type: PostType,
             args: { id: { type: GraphQLID } },
             resolve(parents, args) {
-                // We get the data from the mongoDB database here
                 return Post.findById(args.id)
             }
         },
