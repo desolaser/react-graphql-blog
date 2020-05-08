@@ -39,6 +39,38 @@ code {
   border-radius: 25px;
 }
 
+.post-form {
+  text-align: center;
+}
+
+.label {
+  margin-right: 10px;
+}
+
+.input {
+  width: 60%;
+  height: 25px;
+  padding: 10px;
+  border-radius: 15px;
+  font-size: 24px;
+}
+
+.submit-button {
+  margin: 15px;
+  border: none;
+  font-size: 18px;
+  padding: 5px 10px;
+  background-color: dodgerblue;
+}
+
+.submit-button:hover {
+  background-color: rgba(30, 143, 255, 0.63);
+}
+
+.submit-button:active {
+  background-color: rgba(255, 255, 255, 1);
+}
+
 .footer {
   background-color: rgb(45, 47, 75);
   color: white;

@@ -35,7 +35,7 @@ const PostList = () => {
     return (
         <form className="post-form" onSubmit={handleSubmit}>
             <div>
-                <label htmlFor="title">Title</label>
+                <label className="label" htmlFor="title">Title</label>
                 <input 
                     className="input"
                     type="text"
@@ -44,7 +44,7 @@ const PostList = () => {
                 />                
             </div>
             <div>
-                <label htmlFor="text">Text</label>
+                <label className="label" htmlFor="text">Text</label>
                 <input
                     className="input"
                     type="text"
