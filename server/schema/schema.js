@@ -216,16 +216,68 @@ const RootType = new GraphQLObjectType({
 const Mutation = new GraphQLObjectType ({
     name: 'Mutation',
     fields: {
+        addUser: {
+            type: UserType,
+            args: {
+                name: { type: new GraphQLNonNull(GraphQLString) },
+                email: { type: new GraphQLNonNull(GraphQLString) },
+                password: { type: new GraphQLNonNull(GraphQLString) },
+                role: { type: new GraphQLNonNull(GraphQLString) }
+            },
+            resolve(parent, args) {
+                let user = new User({
+                    name: args.name,
+                    email: args.email,
+                    password: args.password,
+                    role: args.role
+                })
+                return user
+            }
+        },
+        addCategory: {
+            type: CategoryType,
+            args: {
+                name: { type: new GraphQLNonNull(GraphQLString) },
+                userId: { type: new GraphQLNonNull(GraphQLID) }
+            },
+            resolve(parent, args) {
+                let category = new Category({
+                    name: args.name,
+                    userId: args.userId
+                })
+                return category
+            }
+        },
+        addTopic: {
+            type: TopicType,
+            args: {
+                name: { type: new GraphQLNonNull(GraphQLString) },
+                categoryId: { type: new GraphQLNonNull(GraphQLID) },
+                userId: { type: new GraphQLNonNull(GraphQLID) }
+            },
+            resolve(parent, args) {
+                let topic = new Topic({
+                    name: args.name,
+                    categoryId: args.categoryId,
+                    userId: args.userId
+                })
+                return topic.save()
+            }
+        },
         addPost: {
             type: PostType,
             args: {
                 title: { type: new GraphQLNonNull(GraphQLString) },
-                text: { type: new GraphQLNonNull(GraphQLString) }
+                content: { type: new GraphQLNonNull(GraphQLString) },
+                topicId: { type: new GraphQLNonNull(GraphQLID) },
+                userId: { type: new GraphQLNonNull(GraphQLID) }
             },
             resolve(parent, args) {
                 let post = new Post({
                     title: args.title,
-                    text: args.text
+                    content: args.content,
+                    topicId: args.topicId,
+                    userId: args.userId
                 })
                 return post.save()
             }
@@ -233,13 +285,15 @@ const Mutation = new GraphQLObjectType ({
         addComment: {
             type: CommentType,
             args: {
-                text: { type: new GraphQLNonNull(GraphQLString) },
-                postId: { type: new GraphQLNonNull(GraphQLID) }
+                content: { type: new GraphQLNonNull(GraphQLString) },
+                postId: { type: new GraphQLNonNull(GraphQLID) },
+                userId: { type: new GraphQLNonNull(GraphQLID) }
             },
             resolve(parents, args) {
                 let comment = new Comment({
-                    text: args.text,
-                    postId: args.postId
+                    content: args.content,
+                    postId: args.postId,
+                    userId: args.userId
                 })
                 return comment.save()
             }
