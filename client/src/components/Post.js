@@ -1,17 +1,34 @@
 import React from 'react'
+import { Card, CardContent, Typography } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+
 import Comment from './Comment'
 
+const useStyles = makeStyles(theme => ({
+    card: {
+        marginBottom: 25
+    }
+}))
+
 const Post = props => {
+    const classes = useStyles()
+
     return (
-        <div className="post">
-            <h2>{props.data.title}</h2>
-            <p>{props.data.text}</p>
-            <div>
-                {props.data.comments.map(comment => (
-                    <Comment key={comment.id} data={comment} />
-                ))}
-            </div>
-        </div>
+        <Card className={classes.card}>
+            <CardContent>
+                <Typography variant="h3" gutterBottom>
+                    {props.data.title}
+                </Typography>
+                <Typography variant="h6" component="p" color="textSecondary">
+                    {props.data.text}
+                </Typography>
+                <div>
+                    {props.data.comments.map(comment => (
+                        <Comment key={comment.id} data={comment} />
+                    ))}
+                </div>
+            </CardContent>
+        </Card>
     )
 }
 
