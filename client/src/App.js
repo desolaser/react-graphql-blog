@@ -26,7 +26,7 @@ const App = () => {
             <Router>
                 <Header/>
                 <Navbar/>
-                <Container fixed>
+                <Container fixed style={{ minHeight: "100vh" }}>
                     <Switch>
                         <Route exact path="/" component={PostList} />
                         <Route path="/post" component={PostForm} />
