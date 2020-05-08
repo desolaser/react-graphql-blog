@@ -3,7 +3,7 @@ const Schema = moongoose.Schema
 
 const categorySchema = new Schema({
     name: String,
-    postId: String
+    userId: String
 }, { timestamps: true })
 
 module.exports = moongoose.model('Category', categorySchema)
