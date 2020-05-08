@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 const Header = () => {
     const classes = useStyles()
 
-    return (        
+    return (
         <Typography variant="h2" className={classes.title}>
             React GraphQL Forum
         </Typography>
