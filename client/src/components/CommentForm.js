@@ -1,6 +1,19 @@
 import React, { useState } from 'react'
 import gql from 'graphql-tag'
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks'
+import { TextField, Button, FormControl, Select, MenuItem, InputLabel } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+
+
+const useStyles = makeStyles((theme) => ({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+}));
 
 const addCommentMutation = gql`
     mutation AddComment($text: String!, $postId: ID!) {
@@ -20,6 +33,8 @@ const getPostsQuery = gql`
 `
 
 const CommentForm = () => {
+    const classes = useStyles()
+
     const [ id, setId ] = useState("")
     const [ text, setText ] = useState("")
 
@@ -43,31 +58,49 @@ const CommentForm = () => {
 
     return (
         <form className="post-form" onSubmit={handleSubmit}>
-            <div>
-                <label className="label" htmlFor="id">Post Id</label>
-                <select onChange={e => setId(e.target.value)} value={id} required>
-                    <option value="">Select a post</option>
+            <FormControl className={classes.formControl}>
+                <InputLabel id="age">Age</InputLabel>
+                <Select
+                    style={{ width: "80vw" }}
+                    labelId="age"
+                    id="demo-simple-select"
+                    value={id}
+                    onChange={e => setId(e.target.value)}
+                    required                    
+                >
+                    <MenuItem value="">Select a post</MenuItem>
                     {data.posts.map(item => (
-                        <option
+                        <MenuItem
                             key={item.id}
                             value={item.id}
                         >
                             {item.text}
-                        </option>
+                        </MenuItem>
                     ))}
-                </select>              
-            </div>
-            <div>
-                <label className="label" htmlFor="text">Text</label>
-                <input
-                    className="input"
-                    type="text"
-                    onChange={e => setText(e.target.value)}
-                    value={text}
-                    required
-                />
-            </div>
-            <button type="submit" className="submit-button">Add Comment</button>
+                </Select>
+            </FormControl>
+            <TextField
+                id="text"
+                label="Text"
+                style={{ margin: 8 }}
+                placeholder="Text here"
+                helperText="The content of the comment"
+                fullWidth
+                margin="normal"
+                onChange={e => setText(e.target.value)}
+                value={text}
+                InputLabelProps={{
+                    shrink: true,
+                }}
+            />
+            <Button 
+                variant="contained" 
+                color="primary" 
+                style={{ marginBottom: 20 }}
+                onClick={handleSubmit}
+            >
+                Add Comment
+            </Button>
         </form>
     )
 }

@@ -61,7 +61,7 @@ const PostList = () => {
                 InputLabelProps={{
                     shrink: true,
                 }}
-            />            
+            />
             <Button 
                 variant="contained" 
                 color="primary" 
