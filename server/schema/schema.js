@@ -145,6 +145,27 @@ const CommentType = new GraphQLObjectType({
 const RootType = new GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
+        user: {
+            type: UserType,
+            args: { id: { type: GraphQLID } },
+            resolve(parents, args) {
+                return User.findById(args.id)
+            }
+        },
+        category: {
+            type: CategoryType,
+            args: { id: { type: GraphQLID } },
+            resolve(parents, args) {
+                return Category.findById(args.id)
+            }
+        },
+        topic: {
+            type: TopicType,
+            args: { id: { type: GraphQLID } },
+            resolve(parents, args) {
+                return Topic.findById(args.id)
+            }
+        },
         post: {
             type: PostType,
             args: { id: { type: GraphQLID } },
@@ -157,6 +178,24 @@ const RootType = new GraphQLObjectType({
             args: { id: { type: GraphQLID } },
             resolve(parents, args) {
                 return Comment.findById(args.id)
+            }
+        },
+        users: {
+            type: new GraphQLList(UserType),
+            resolve() {
+                return User.find({})
+            }
+        },
+        category: {
+            type: new GraphQLList(CategoryType),
+            resolve() {
+                return Category.find({})
+            }
+        },
+        topic: {
+            type: new GraphQLList(TopicType),
+            resolve() {
+                return Topic.find({})
             }
         },
         posts: {
