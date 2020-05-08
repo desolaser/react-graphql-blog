@@ -186,13 +186,13 @@ const RootType = new GraphQLObjectType({
                 return User.find({})
             }
         },
-        category: {
+        categories: {
             type: new GraphQLList(CategoryType),
             resolve() {
                 return Category.find({})
             }
         },
-        topic: {
+        topics: {
             type: new GraphQLList(TopicType),
             resolve() {
                 return Topic.find({})
