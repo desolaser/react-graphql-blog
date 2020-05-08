@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks';
-import { Typography, FormControl, InputLabel, TextField, FormHelperText, Button } from '@material-ui/core'
+import { TextField, Button } from '@material-ui/core'
 
 const addPostMutation = gql`
     mutation AddPost($title: String!, $text: String!) {
@@ -33,7 +33,7 @@ const PostList = () => {
     }
 
     return (
-        <form className="post-form" onSubmit={handleSubmit}>
+        <form className="post-form">
              <TextField
                 id="title"
                 label="Title"
@@ -62,7 +62,12 @@ const PostList = () => {
                     shrink: true,
                 }}
             />            
-            <Button variant="contained" color="primary" style={{ marginBottom: 20 }}>
+            <Button 
+                variant="contained" 
+                color="primary" 
+                style={{ marginBottom: 20 }}
+                onClick={handleSubmit}
+            >
                 Add Post
             </Button>
         </form>
