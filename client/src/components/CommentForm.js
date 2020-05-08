@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
 import gql from 'graphql-tag'
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 
 const addCommentMutation = gql`
-    mutation AddComment($id: String!, $text: String!) {
-        addComment(id: $id, text: $text) {
+    mutation AddComment($text: String!, $postId: ID!) {
+        addComment(text: $text, postId: $postId) {
             id
             text
         }
     }
 `
-
 const getPostsQuery = gql`
     {
         posts {
@@ -24,7 +23,7 @@ const CommentForm = () => {
     const [ id, setId ] = useState("")
     const [ text, setText ] = useState("")
 
-    const [addComment, { data }] = useMutation(addCommentMutation);
+    const [addComment, { result }] = useMutation(addCommentMutation);
     
     const { loading, error, data } = useQuery(getPostsQuery);
     if (loading) return 'Loading...';
@@ -34,20 +33,20 @@ const CommentForm = () => {
         e.preventDefault()
 
         addComment({ variables: {
-            id,
-            text
+            text,
+            postId: id
         } })
 
         setId("")
         setText("")
-        console.log(data)
     }
 
     return (
         <form className="post-form" onSubmit={handleSubmit}>
             <div>
                 <label className="label" htmlFor="id">Post Id</label>
-                <select className="input" onChange={e => setId(e.target.value)} value={id} required>
+                <select onChange={e => setId(e.target.value)} value={id} required>
+                    <option value="">Select a post</option>
                     {data.posts.map(item => (
                         <option
                             key={item.id}
@@ -68,7 +67,7 @@ const CommentForm = () => {
                     required
                 />
             </div>
-            <button type="submit" className="submit-button">Add Post</button>
+            <button type="submit" className="submit-button">Add Comment</button>
         </form>
     )
 }

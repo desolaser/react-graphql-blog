@@ -12,6 +12,7 @@ import Navbar from './components/Navbar'
 import Header from './components/Header'
 import PostList from './components/PostList'
 import PostForm from './components/PostForm'
+import CommentForm from './components/CommentForm'
 import Footer from './components/Footer'
 
 const client = new ApolloClient({
@@ -29,6 +30,7 @@ const App = () => {
                         <Switch>
                             <Route exact path="/" component={PostList} />
                             <Route path="/post" component={PostForm} />
+                            <Route path="/comment" component={CommentForm} />
                         </Switch>
                     </main>
                     <Footer/>
