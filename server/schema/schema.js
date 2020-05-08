@@ -231,7 +231,7 @@ const Mutation = new GraphQLObjectType ({
                     password: args.password,
                     role: args.role
                 })
-                return user
+                return user.save()
             }
         },
         addCategory: {
@@ -245,7 +245,7 @@ const Mutation = new GraphQLObjectType ({
                     name: args.name,
                     userId: args.userId
                 })
-                return category
+                return category.save()
             }
         },
         addTopic: {
