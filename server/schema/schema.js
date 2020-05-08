@@ -70,7 +70,7 @@ const CategoryType = new GraphQLObjectType({
 })
 
 const TopicType = new GraphQLObjectType({
-    name: 'Category',
+    name: 'Topic',
     fields: () => ({
         id: { type: GraphQLID },
         name: { type: GraphQLString },
