@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks';
+import { Typography, FormControl, InputLabel, TextField, FormHelperText, Button } from '@material-ui/core'
 
 const addPostMutation = gql`
     mutation AddPost($title: String!, $text: String!) {
@@ -33,27 +34,37 @@ const PostList = () => {
 
     return (
         <form className="post-form" onSubmit={handleSubmit}>
-            <div>
-                <label className="label" htmlFor="title">Title</label>
-                <input 
-                    className="input"
-                    type="text"
-                    onChange={e => setTitle(e.target.value)}
-                    value={title}
-                    required
-                />                
-            </div>
-            <div>
-                <label className="label" htmlFor="text">Text</label>
-                <input
-                    className="input"
-                    type="text"
-                    onChange={e => setText(e.target.value)}
-                    value={text}
-                    required
-                />
-            </div>
-            <button type="submit" className="submit-button">Add Post</button>
+             <TextField
+                id="title"
+                label="Title"
+                style={{ margin: 8 }}
+                placeholder="Title here"
+                helperText="The title of the post"
+                fullWidth
+                margin="normal"
+                onChange={e => setTitle(e.target.value)}
+                value={title}
+                InputLabelProps={{
+                    shrink: true,
+                }}
+            />
+            <TextField
+                id="text"
+                label="Text"
+                style={{ margin: 8 }}
+                placeholder="Text here"
+                helperText="The content of the post"
+                fullWidth
+                margin="normal"
+                onChange={e => setText(e.target.value)}
+                value={text}
+                InputLabelProps={{
+                    shrink: true,
+                }}
+            />            
+            <Button variant="contained" color="primary" style={{ marginBottom: 20 }}>
+                Add Post
+            </Button>
         </form>
     )
 }
