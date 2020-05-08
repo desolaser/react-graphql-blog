@@ -24,8 +24,8 @@ const App = () => {
         <ApolloProvider client={client}>
             <CssBaseline/>
             <Router>
-                <Navbar/>
                 <Header/>
+                <Navbar/>
                 <Container fixed>
                     <Switch>
                         <Route exact path="/" component={PostList} />

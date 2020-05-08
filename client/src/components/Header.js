@@ -6,16 +6,21 @@ const useStyles = makeStyles((theme) => ({
     title: {
       textAlign: 'center',
       margin: 20,
-    }
+    },
 }))
 
 const Header = () => {
     const classes = useStyles()
 
     return (
-        <Typography variant="h2" className={classes.title}>
-            React GraphQL Forum
-        </Typography>
+        <div>
+            <Typography variant="h2" className={classes.title}>
+                React GraphQL Forum
+            </Typography>
+            <Typography variant="subtitle1" className={classes.title}>
+                The bests posts ever
+            </Typography>
+        </div>
     )
 }
 
