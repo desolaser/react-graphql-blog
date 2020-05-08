@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 
 import Navbar from './components/navbar'
-import Header from './components/Header'
+import Header from './components/header'
 import PostList from './components/PostList'
 import PostForm from './components/PostForm'
 import CommentForm from './components/CommentForm'
