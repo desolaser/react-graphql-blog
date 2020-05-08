@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { gql } from 'apollo-boost'
+import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks';
 
 const addPostMutation = gql`
@@ -28,7 +28,6 @@ const PostList = () => {
 
         setTitle("")
         setText("")
-
         console.log(data)
     }
 
@@ -41,6 +40,7 @@ const PostList = () => {
                     type="text"
                     onChange={e => setTitle(e.target.value)}
                     value={title}
+                    required
                 />                
             </div>
             <div>
@@ -50,6 +50,7 @@ const PostList = () => {
                     type="text"
                     onChange={e => setText(e.target.value)}
                     value={text}
+                    required
                 />
             </div>
             <button type="submit" className="submit-button">Add Post</button>
