@@ -1,12 +1,12 @@
 import React from 'react';
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
+import { Container, CssBaseline } from '@material-ui/core'
 import {
     BrowserRouter as Router,
     Switch,
     Route
-  } from "react-router-dom";
-  
+} from "react-router-dom";
 
 import Navbar from './components/Navbar'
 import Header from './components/Header'
@@ -22,19 +22,18 @@ const client = new ApolloClient({
 const App = () => {
     return (
         <ApolloProvider client={client}>
+            <CssBaseline/>
             <Router>
-                <div className="container">
-                    <Navbar/>
-                    <Header/>
-                    <main className="main">
-                        <Switch>
-                            <Route exact path="/" component={PostList} />
-                            <Route path="/post" component={PostForm} />
-                            <Route path="/comment" component={CommentForm} />
-                        </Switch>
-                    </main>
-                    <Footer/>
-                </div>
+                <Navbar/>
+                <Header/>
+                <Container fixed>
+                    <Switch>
+                        <Route exact path="/" component={PostList} />
+                        <Route path="/post" component={PostForm} />
+                        <Route path="/comment" component={CommentForm} />
+                    </Switch>
+                </Container>
+                <Footer/>
             </Router>
         </ApolloProvider>
     );
