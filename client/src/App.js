@@ -8,7 +8,7 @@ import {
     Route
 } from "react-router-dom";
 
-import Navbar from './components/Navbar'
+import Navbar from './components/navbar'
 import Header from './components/Header'
 import PostList from './components/PostList'
 import PostForm from './components/PostForm'
