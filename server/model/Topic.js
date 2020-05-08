@@ -6,4 +6,4 @@ const topicSchema = new Schema({
     userId: String
 }, { timestamps: true })
 
-module.exports = mongoose.Model('Topic', topicSchema) 
+module.exports = mongoose.model('Topic', topicSchema) 
