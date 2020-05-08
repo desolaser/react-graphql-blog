@@ -16,10 +16,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const addCommentMutation = gql`
-    mutation AddComment($text: String!, $postId: ID!) {
-        addComment(text: $text, postId: $postId) {
+    mutation AddComment($content: String!, $postId: ID!) {
+        addComment(content: $content, postId: $postId) {
             id
-            text
+            content
         }
     }
 `
@@ -27,7 +27,7 @@ const getPostsQuery = gql`
     {
         posts {
             id
-            text
+            content
         }
     }
 `
@@ -36,7 +36,7 @@ const CommentForm = () => {
     const classes = useStyles()
 
     const [ id, setId ] = useState("")
-    const [ text, setText ] = useState("")
+    const [ content, setContent ] = useState("")
 
     const [addComment, { result }] = useMutation(addCommentMutation);
     
@@ -48,12 +48,12 @@ const CommentForm = () => {
         e.preventDefault()
 
         addComment({ variables: {
-            text,
+            content,
             postId: id
         } })
 
         setId("")
-        setText("")
+        setContent("")
     }
 
     return (
@@ -74,21 +74,21 @@ const CommentForm = () => {
                             key={item.id}
                             value={item.id}
                         >
-                            {item.text}
+                            {item.title}
                         </MenuItem>
                     ))}
                 </Select>
             </FormControl>
             <TextField
-                id="text"
-                label="Text"
+                id="content"
+                label="Content"
                 style={{ margin: 8 }}
-                placeholder="Text here"
+                placeholder="Content here"
                 helperText="The content of the comment"
                 fullWidth
                 margin="normal"
-                onChange={e => setText(e.target.value)}
-                value={text}
+                onChange={e => setContent(e.target.value)}
+                value={content}
                 InputLabelProps={{
                     shrink: true,
                 }}

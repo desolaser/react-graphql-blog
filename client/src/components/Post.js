@@ -20,7 +20,7 @@ const Post = props => {
                     {props.data.title}
                 </Typography>
                 <Typography variant="h6" component="p" color="textSecondary">
-                    {props.data.text}
+                    {props.data.content}
                 </Typography>
                 <div>
                     {props.data.comments.map(comment => (

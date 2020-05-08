@@ -8,10 +8,10 @@ const getPostsQuery = gql`
         posts {
             id
             title
-            text
+            content
             comments {
                 id
-                text
+                content
             }
         }
     }

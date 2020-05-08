@@ -4,18 +4,18 @@ import { useMutation } from '@apollo/react-hooks';
 import { TextField, Button } from '@material-ui/core'
 
 const addPostMutation = gql`
-    mutation AddPost($title: String!, $text: String!) {
-        addPost(title: $title, text: $text) {
+    mutation AddPost($title: String!, $content: String!) {
+        addPost(title: $title, content: $content) {
             id
             title
-            text
+            content
         }
     }
 `
 
 const PostList = () => {
     const [ title, setTitle ] = useState("")
-    const [ text, setText ] = useState("")
+    const [ content, setContent ] = useState("")
 
     const [addPost, { data }] = useMutation(addPostMutation);
 
@@ -24,11 +24,11 @@ const PostList = () => {
 
         addPost({ variables: {
             title,
-            text
+            content
         } })
 
         setTitle("")
-        setText("")
+        setContent("")
         console.log(data)
     }
 
@@ -49,15 +49,15 @@ const PostList = () => {
                 }}
             />
             <TextField
-                id="text"
-                label="Text"
+                id="content"
+                label="Content"
                 style={{ margin: 8 }}
-                placeholder="Text here"
+                placeholder="Content here"
                 helperText="The content of the post"
                 fullWidth
                 margin="normal"
-                onChange={e => setText(e.target.value)}
-                value={text}
+                onChange={e => setContent(e.target.value)}
+                value={content}
                 InputLabelProps={{
                     shrink: true,
                 }}
