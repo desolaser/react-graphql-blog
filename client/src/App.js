@@ -12,6 +12,7 @@ import Navbar from './components/navbar'
 import Header from './components/header'
 import MainPage from './components/mainPage'
 import TopicPage from './components/topicPage'
+import PostPage from './components/postPage'
 import Footer from './components/footer'
 
 const client = new ApolloClient({
@@ -28,7 +29,8 @@ const App = () => {
                 <Container fixed style={{ minHeight: "100vh" }}>
                     <Switch>
                         <Route exact path="/" component={MainPage} />
-                        <Route exact path="/topic/:id" component={TopicPage} />
+                        <Route path="/topic/:id" component={TopicPage} />
+                        <Route path="/post/:id" component={PostPage} />
                     </Switch>
                 </Container>
                 <Footer/>
