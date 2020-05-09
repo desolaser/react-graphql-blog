@@ -24,7 +24,7 @@ const GET_CATEGORIES = gql`
     }
 `
 
-const CategoriesPage = () => {
+const MainPage = () => {
     const classes = useStyles()
     const { loading, error, data } = useQuery(GET_CATEGORIES)
 
@@ -40,4 +40,4 @@ const CategoriesPage = () => {
     )
 }
 
-export default CategoriesPage
+export default MainPage

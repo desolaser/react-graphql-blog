@@ -10,10 +10,8 @@ import {
 
 import Navbar from './components/navbar'
 import Header from './components/header'
-import PostList from './components/PostList'
-import PostForm from './components/PostForm'
-import CommentForm from './components/CommentForm'
-import Footer from './components/Footer'
+import MainPage from './components/mainPage'
+import Footer from './components/footer'
 
 const client = new ApolloClient({
     uri: 'http://localhost:4000/graphql'
@@ -28,9 +26,7 @@ const App = () => {
                 <Navbar/>
                 <Container fixed style={{ minHeight: "100vh" }}>
                     <Switch>
-                        <Route exact path="/" component={PostList} />
-                        <Route path="/post" component={PostForm} />
-                        <Route path="/comment" component={CommentForm} />
+                        <Route exact path="/" component={MainPage} />
                     </Switch>
                 </Container>
                 <Footer/>
