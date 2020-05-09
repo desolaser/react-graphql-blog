@@ -33,7 +33,7 @@ const Category = props => {
             </AppBar>
             <List component="nav">
                 {props.data.topics.map(topic => (
-                    <ListItem key={topic.id} className="topic-item" component="a" href="" button>
+                    <ListItem key={topic.id} className="topic-item" component="a" href={`/topic/${topic.id}`} button>
                         <ListItemText primary={topic.name} secondary={`Created by ${topic.user.name}`} />
                     </ListItem>
                 ))}
