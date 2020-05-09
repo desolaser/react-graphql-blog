@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { makeStyles } from '@material-ui/styles'
 
-import Category from './Category'
+import Category from '../Category'
 
 const useStyles = makeStyles({
     categories: {
