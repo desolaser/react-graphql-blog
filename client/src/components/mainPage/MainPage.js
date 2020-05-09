@@ -15,10 +15,18 @@ const GET_CATEGORIES = gql`
     {
         categories {
             id
-            name 
+            name
             topics {
                 id
-                name      
+                name
+                user {
+                    id
+                    name
+                }
+            }
+            user {
+                id
+                name
             }
         }
     }
