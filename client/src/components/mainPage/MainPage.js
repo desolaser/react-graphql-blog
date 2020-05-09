@@ -2,7 +2,8 @@ import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { makeStyles } from '@material-ui/styles'
-
+import { Card, CardContent, Typography } from '@material-ui/core'
+ 
 import Category from '../Category'
 
 const useStyles = makeStyles({
@@ -40,11 +41,20 @@ const MainPage = () => {
     if (error) return `Error ${error.message}`
 
     return (
-        <div className={classes.categories}>
-            {data.categories.map(category => (                    
-                <Category key={category.id} data={category}/>
-            ))}
-        </div>
+        data.categories === [] ?
+            <Card>
+                <CardContent>
+                    <Typography color="textSecondary" gutterBottom>
+                        The forum hasn't categories, add one    
+                    </Typography>
+                </CardContent>                
+            </Card>
+            :
+            <div className={classes.categories}>
+                {data.categories.map(category => (                    
+                    <Category key={category.id} data={category}/>
+                ))}
+            </div>
     )
 }
 
