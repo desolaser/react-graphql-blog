@@ -15,6 +15,9 @@ const useStyles = makeStyles({
             backgroundColor: '#FFFFFF',
             marginBottom: '5px',
         }
+    },
+    card: {
+        marginBottom: '10px'
     }
 })
 
@@ -35,6 +38,7 @@ const GET_POST = gql`
             user {
                 id
                 name
+                role
             }
         }
     }
@@ -58,7 +62,7 @@ const PostPage = props => {
                     subheader={data.post.user.role}
                 />
                 <CardContent>
-                    <Typography color="title">
+                    <Typography variant="h6">
                         {data.post.title}
                     </Typography>
                     <Typography color="textSecondary">
@@ -68,14 +72,14 @@ const PostPage = props => {
             </Card>
             <List component="nav">
                 {data.post.comments.map(comment => (
-                    <Card>
+                    <Card className={classes.card}>
                         <CardHeader
-                            title={data.comment.user.name}
-                            subheader={data.comment.user.role}
+                            title={comment.user.name}
+                            subheader={comment.user.role}
                         />
                         <CardContent>
                             <Typography color="textSecondary">
-                                {data.post.content}
+                                {comment.content}
                             </Typography>
                         </CardContent>
                     </Card>
