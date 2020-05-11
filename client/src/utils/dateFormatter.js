@@ -5,4 +5,4 @@ const dateFormatter = date => {
     return `${da}-${mo}-${ye}`
 }
 
-export const dateFormatter
+export default dateFormatter
