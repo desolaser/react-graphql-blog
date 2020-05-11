@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { Typography, List, Card, CardContent, CardHeader } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
+import dateFormatter from '../../utils/dateFormatter'
 
 const useStyles = makeStyles({
     root: {
@@ -56,11 +57,8 @@ const PostPage = props => {
     if (loading) return "loading..."
     if (error) return `Error ${error.message}`
     
-    const topicDate = new Date(Date.parse(data.post.createdAt))
-    const dtf = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' })
-    const [{ value: mo },,{ value: da },,{ value: ye }] = dtf.formatToParts(topicDate)
-    const formattedDate = `${da}-${mo}-${ye}`
-
+    const formattedDate = dateFormatter(data.post.createdAt)
+    
     return (
         <div className={classes.root}>
             <Card>
@@ -81,11 +79,8 @@ const PostPage = props => {
                 </CardContent>
             </Card>
             <List component="nav">
-                {data.post.comments.map(comment => {                    
-                    const topicDate = new Date(Date.parse(comment.createdAt))
-                    const dtf = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' })
-                    const [{ value: mo },,{ value: da },,{ value: ye }] = dtf.formatToParts(topicDate)
-                    const formattedDate = `${da}-${mo}-${ye}`
+                {data.post.comments.map(comment => {          
+                    const formattedDate = dateFormatter(comment.createdAt)
                     return (
                         <Card className={classes.card}>
                             <CardHeader

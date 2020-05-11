@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { AppBar, Typography, List, ListItem, ListItemText, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
+import dateFormatter from '../../utils/dateFormatter'
 
 const useStyles = makeStyles({
     root: {
@@ -63,11 +64,8 @@ const TopicPage = props => {
                 </Grid>
             </AppBar>
             <List component="nav">
-                {data.topic.posts.map(post => {                    
-                    const topicDate = new Date(Date.parse(post.createdAt))
-                    const dtf = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' })
-                    const [{ value: mo },,{ value: da },,{ value: ye }] = dtf.formatToParts(topicDate)
-                    const formattedDate = `${da}-${mo}-${ye}`
+                {data.topic.posts.map(post => {
+                    const formattedDate = dateFormatter(post.createdAt)
                     return(
                         <ListItem key={post.id} className="topic-item" component="a" href={`/post/${post.id}`} button>
                             <ListItemText primary={post.title} secondary={`Created by ${post.user.name} - ${formattedDate}`} />
