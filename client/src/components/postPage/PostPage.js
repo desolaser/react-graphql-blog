@@ -53,12 +53,12 @@ const PostPage = props => {
     return (
         <div className={classes.root}>
             <Card>
-            <CardHeader
-                title={data.post.user.name}
-                subheader={data.post.user.role}
-            />
+                <CardHeader
+                    title={data.post.user.name}
+                    subheader={data.post.user.role}
+                />
                 <CardContent>
-                    <Typography color="textSecondary">
+                    <Typography color="title">
                         {data.post.title}
                     </Typography>
                     <Typography color="textSecondary">
@@ -69,9 +69,13 @@ const PostPage = props => {
             <List component="nav">
                 {data.post.comments.map(comment => (
                     <Card>
+                        <CardHeader
+                            title={data.comment.user.name}
+                            subheader={data.comment.user.role}
+                        />
                         <CardContent>
-                            <Typography>
-                                {comment.content}
+                            <Typography color="textSecondary">
+                                {data.post.content}
                             </Typography>
                         </CardContent>
                     </Card>
