@@ -32,11 +32,17 @@ const Category = props => {
                 </Grid>
             </AppBar>
             <List component="nav">
-                {props.data.topics.map(topic => (
-                    <ListItem key={topic.id} className="topic-item" component="a" href={`/topic/${topic.id}`} button>
-                        <ListItemText primary={topic.name} secondary={`Created by ${topic.user.name}`} />
-                    </ListItem>
-                ))}
+                {props.data.topics.map(topic => {
+                    const topicDate = new Date(Date.parse(topic.createdAt))
+                    const dtf = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' })
+                    const [{ value: mo },,{ value: da },,{ value: ye }] = dtf.formatToParts(topicDate)
+                    const formattedDate = `${da}-${mo}-${ye}`
+                    return (
+                        <ListItem key={topic.id} className="topic-item" component="a" href={`/topic/${topic.id}`} button>
+                            <ListItemText primary={topic.name} secondary={`Created by ${topic.user.name} - ${formattedDate}`} />
+                        </ListItem>
+                    )
+                })}
             </List>
         </div>
     )

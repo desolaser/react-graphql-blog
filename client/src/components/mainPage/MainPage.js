@@ -20,6 +20,7 @@ const GET_CATEGORIES = gql`
             topics {
                 id
                 name
+                createdAt
                 user {
                     id
                     name
