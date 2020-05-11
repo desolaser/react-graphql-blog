@@ -27,9 +27,11 @@ const GET_POST = gql`
             id
             title
             content
+            createdAt
             comments {
                 id
                 content
+                createdAt
                 user {
                     id
                     name
@@ -53,6 +55,11 @@ const PostPage = props => {
 
     if (loading) return "loading..."
     if (error) return `Error ${error.message}`
+    
+    const topicDate = new Date(Date.parse(data.post.createdAt))
+    const dtf = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' })
+    const [{ value: mo },,{ value: da },,{ value: ye }] = dtf.formatToParts(topicDate)
+    const formattedDate = `${da}-${mo}-${ye}`
 
     return (
         <div className={classes.root}>
@@ -68,22 +75,34 @@ const PostPage = props => {
                     <Typography color="textSecondary">
                         {data.post.content}
                     </Typography>
+                    <Typography color="textSecondary">
+                        {formattedDate}
+                    </Typography>
                 </CardContent>
             </Card>
             <List component="nav">
-                {data.post.comments.map(comment => (
-                    <Card className={classes.card}>
-                        <CardHeader
-                            title={comment.user.name}
-                            subheader={comment.user.role}
-                        />
-                        <CardContent>
-                            <Typography color="textSecondary">
-                                {comment.content}
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                ))}
+                {data.post.comments.map(comment => {                    
+                    const topicDate = new Date(Date.parse(comment.createdAt))
+                    const dtf = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' })
+                    const [{ value: mo },,{ value: da },,{ value: ye }] = dtf.formatToParts(topicDate)
+                    const formattedDate = `${da}-${mo}-${ye}`
+                    return (
+                        <Card className={classes.card}>
+                            <CardHeader
+                                title={comment.user.name}
+                                subheader={comment.user.role}
+                            />
+                            <CardContent>
+                                <Typography color="textSecondary">
+                                    {comment.content}
+                                </Typography>
+                                <Typography color="textSecondary">
+                                    {formattedDate}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    )
+                })}
             </List>
         </div>
     )
