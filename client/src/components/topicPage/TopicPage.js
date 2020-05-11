@@ -26,6 +26,7 @@ const GET_TOPIC = gql`
             posts {
                 id
                 title
+                createdAt
                 user {
                     id
                     name
@@ -49,8 +50,6 @@ const TopicPage = props => {
     if (loading) return "loading..."
     if (error) return `Error ${error.message}`
 
-    console.log(data)
-
     return (
         <div className={classes.root}>
             <AppBar position="static" className="app-bar">
@@ -64,11 +63,17 @@ const TopicPage = props => {
                 </Grid>
             </AppBar>
             <List component="nav">
-                {data.topic.posts.map(post => (
-                    <ListItem key={post.id} className="topic-item" component="a" href={`/post/${post.id}`} button>
-                        <ListItemText primary={post.title} secondary={`Created by ${post.user.name}`} />
-                    </ListItem>
-                ))}
+                {data.topic.posts.map(post => {                    
+                    const topicDate = new Date(Date.parse(post.createdAt))
+                    const dtf = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' })
+                    const [{ value: mo },,{ value: da },,{ value: ye }] = dtf.formatToParts(topicDate)
+                    const formattedDate = `${da}-${mo}-${ye}`
+                    return(
+                        <ListItem key={post.id} className="topic-item" component="a" href={`/post/${post.id}`} button>
+                            <ListItemText primary={post.title} secondary={`Created by ${post.user.name} - ${formattedDate}`} />
+                        </ListItem>
+                    )
+                })}
             </List>
         </div>
     )
