@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/styles'
 import { Card, CardContent, Typography } from '@material-ui/core'
  
 import Category from '../Category'
+import Loading from '../Loading'
 
 const useStyles = makeStyles({
     categories: {
@@ -38,7 +39,7 @@ const MainPage = () => {
     const classes = useStyles()
     const { loading, error, data } = useQuery(GET_CATEGORIES)
 
-    if (loading) return "Loading..."
+    if (loading) return <Loading />
     if (error) return `Error ${error.message}`
 
     return (
@@ -48,7 +49,7 @@ const MainPage = () => {
                     <Typography color="textSecondary" gutterBottom>
                         The forum hasn't categories, add one    
                     </Typography>
-                </CardContent>                
+                </CardContent>
             </Card>
             :
             <div className={classes.categories}>

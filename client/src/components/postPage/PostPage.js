@@ -3,7 +3,9 @@ import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { Typography, List, Card, CardContent, CardHeader } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
+
 import dateFormatter from '../../utils/dateFormatter'
+import Loading from '../Loading'
 
 const useStyles = makeStyles({
     root: {
@@ -54,7 +56,7 @@ const PostPage = props => {
         variables: { id: props.match.params.id }
     })
 
-    if (loading) return "loading..."
+    if (loading) return <Loading />
     if (error) return `Error ${error.message}`
     
     const formattedDate = dateFormatter(data.post.createdAt)
