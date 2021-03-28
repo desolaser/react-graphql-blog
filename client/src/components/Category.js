@@ -1,5 +1,14 @@
 import React from 'react'
-import { AppBar, Typography, List, ListItem, ListItemText, Grid } from '@material-ui/core'
+import { 
+    AppBar, 
+    Typography,
+    List, 
+    ListItem, 
+    ListItemText, 
+    Grid, 
+    Card, 
+    CardContent } 
+from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import dateFormatter from '../utils/dateFormatter'
 
@@ -17,7 +26,7 @@ const useStyles = makeStyles({
     }
 })
 
-const Category = props => {
+const Category = ({data}) => {
     const classes = useStyles()
 
     return (
@@ -25,15 +34,25 @@ const Category = props => {
             <AppBar position="static" className="app-bar">
                 <Grid container justify="space-between">
                     <Typography variant="subtitle1" inline>
-                        {props.data.name}
+                        {data.name}
                     </Typography>
                     <Typography variant="caption" align="right" inline>
-                        {`Created by ${props.data.user.name}`}
+                        {`Created by ${data.user.name}`}
                     </Typography>
                 </Grid>
             </AppBar>
             <List component="nav">
-                {props.data.topics.map(topic => {
+                {data.topics.length == 0 ? (
+                    <Card>
+                        <CardContent>
+                            <Typography color="textSecondary" gutterBottom>
+                                This category hasn't topics
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                )
+                :
+                data.topics.map(topic => {
                     const formattedDate = dateFormatter(topic.createdAt)
                     return (
                         <ListItem key={topic.id} className="topic-item" component="a" href={`/topic/${topic.id}`} button>
