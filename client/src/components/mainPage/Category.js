@@ -10,7 +10,7 @@ import {
     CardContent } 
 from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-import dateFormatter from '../utils/dateFormatter'
+import dateFormatter from '../../utils/dateFormatter'
 
 const useStyles = makeStyles({
     root: {
