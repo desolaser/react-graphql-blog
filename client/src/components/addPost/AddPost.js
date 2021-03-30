@@ -12,13 +12,12 @@ const useStyles = makeStyles({
   }
 })
 
-const addPostMutation = gql`
-  mutation AddPost($title: String!, $content: String!) {
-    addPost(title: $title, content: $content) {
+const ADD_POST = gql`
+  mutation AddPost($title: String!, $content: String!, $topicId: ID!, $userId: ID!) {
+    addPost(title: $title, content: $content, topicId: $topicId, userId: $userId) {
+      id
       title
       content
-      topicId
-      userId
     }
   }
 `
@@ -30,7 +29,7 @@ const AddPost = () => {
   const [ content, setContent ] = useState("")
   const [ topicId, setTopicId ] = useState("")
 
-  const [addPost, { data }] = useMutation(addPostMutation);
+  const [addPost, { data }] = useMutation(ADD_POST);
 
   const handleSubmit = e => {
       e.preventDefault()
@@ -44,7 +43,8 @@ const AddPost = () => {
 
       setTitle("")
       setContent("")
-      console.log(data)
+
+      alert("Post added.")
   }
 
   return (
