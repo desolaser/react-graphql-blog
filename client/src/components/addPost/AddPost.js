@@ -44,6 +44,7 @@ const AddPost = () => {
       setTitle("")
       setContent("")
 
+      console.log(data)
       alert("Post added.")
   }
 
