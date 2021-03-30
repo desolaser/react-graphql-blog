@@ -42,7 +42,7 @@ const Category = ({data}) => {
         </Grid>
       </AppBar>
       <List component="nav">
-        {data.topics.length == 0 ? (
+        {data.topics.length === 0 ? (
           <Card>
             <CardContent>
               <Typography color="textSecondary" gutterBottom>
