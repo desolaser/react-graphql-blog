@@ -14,6 +14,7 @@ import MainPage from './components/mainPage'
 import TopicPage from './components/topicPage'
 import PostPage from './components/postPage'
 import AddPost from './components/addPost'
+import AddTopic from './components/addTopic'
 import Footer from './components/footer'
 
 const client = new ApolloClient({
@@ -33,6 +34,7 @@ const App = () => {
             <Route path="/topic/:id" component={TopicPage} />
             <Route path="/post/:id" component={PostPage} />
             <Route path="/add-post" component={AddPost} />
+            <Route path="/add-topic" component={AddTopic} />
           </Switch>
         </Container>
         <Footer/>

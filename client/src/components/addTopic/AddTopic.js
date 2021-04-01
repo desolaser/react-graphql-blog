@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
 import { Card, CardContent } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 
-import PostTopic from './PostTopic'
-import Loading from '../Loading'
+import TopicForm from './TopicForm'
+
+const useStyles = makeStyles({
+  root: {
+    marginTop: 15
+  }
+})
 
 const ADD_TOPIC = gql`
   mutation AddTopic($name: String!, $categoryId: ID!, $userId: ID!) {
@@ -16,16 +21,40 @@ const ADD_TOPIC = gql`
   }
 `
 
+const AddTopic = () => {
+  const classes = useStyles()
+  const [ name, setName ] = useState("")
+  const [ categoryId, setCategoryId ] = useState("")
+  const [addTopic, { data }] = useMutation(ADD_TOPIC)
 
+  const handleSubmit = e => {
+    e.preventDefault()
 
-const AddTopic = props => {
+    addTopic({ variables: {
+        name,
+        categoryId,
+        userId: "5f19a89406e46c239cb04040",
+    } })
+
+    setName("")
+
+    console.log(data)
+    alert("Post added.")
+  }
+
   return (
-    <Card>
+    <Card className={classes.root}>
       <CardContent>
-        
+        <TopicForm
+          name={name}
+          setName={setName}
+          categoryId={categoryId}
+          setCategoryId={setCategoryId}
+          handleSubmit={handleSubmit}
+        />
       </CardContent>
     </Card>
   )
 }
 
-export defautl AddTopic
+export default AddTopic

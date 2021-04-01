@@ -1,2 +1,2 @@
-import AddTopic from './addTopic'
-export default addTopic
+import AddTopic from './AddTopic'
+export default AddTopic
