@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
 import { Card, CardContent } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 
+import ADD_POST from '../../mutations/AddPost'
 import PostForm from './PostForm'
 
 const useStyles = makeStyles({
@@ -11,16 +11,6 @@ const useStyles = makeStyles({
     marginTop: 15
   }
 })
-
-const ADD_POST = gql`
-  mutation AddPost($title: String!, $content: String!, $topicId: ID!, $userId: ID!) {
-    addPost(title: $title, content: $content, topicId: $topicId, userId: $userId) {
-      id
-      title
-      content
-    }
-  }
-`
 
 const AddPost = () => {
   const classes = useStyles()

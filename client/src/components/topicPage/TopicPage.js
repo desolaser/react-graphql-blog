@@ -1,8 +1,9 @@
 import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import { AppBar, Typography, List, ListItem, ListItemText, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
+
+import GET_TOPIC from '../../queries/GetTopic'
 
 import dateFormatter from '../../utils/dateFormatter'
 import Loading from '../Loading'
@@ -20,28 +21,6 @@ const useStyles = makeStyles({
     }
   }
 })
-
-const GET_TOPIC = gql`
-  query getTopic($id: ID!) {
-    topic(id: $id) {
-      id
-      name
-      posts {
-        id
-        title
-        createdAt
-        user {
-          id
-          name
-        }
-      }
-      user {
-        id
-        name
-      }
-    }
-  }
-`
 
 const TopicPage = props => {    
   const classes = useStyles()

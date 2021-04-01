@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
 import { Card, CardContent } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 
+import ADD_TOPIC from '../../mutations/AddTopic'
 import TopicForm from './TopicForm'
 
 const useStyles = makeStyles({
@@ -11,15 +11,6 @@ const useStyles = makeStyles({
     marginTop: 15
   }
 })
-
-const ADD_TOPIC = gql`
-  mutation AddTopic($name: String!, $categoryId: ID!, $userId: ID!) {
-    addTopic(name: $name, categoryId: $categoryId, userId: $userId) {
-      id
-      name
-    }
-  }
-`
 
 const AddTopic = () => {
   const classes = useStyles()

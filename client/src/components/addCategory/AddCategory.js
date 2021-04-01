@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
 import { Card, CardContent } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 
+import ADD_CATEGORY from '../../mutations/AddCategory'
 import CategoryForm from './CategoryForm'
 
 const useStyles = makeStyles({
@@ -11,15 +11,6 @@ const useStyles = makeStyles({
     marginTop: 15
   }
 })
-
-const ADD_CATEGORY = gql`
-  mutation AddCategory($name: String!, $userId: ID!) {
-    addCategory(name: $name, userId: $userId) {
-      id
-      name
-    }
-  }
-`
 
 const AddPost = () => {
   const classes = useStyles()

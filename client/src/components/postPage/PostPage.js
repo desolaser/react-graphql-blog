@@ -1,8 +1,9 @@
 import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
-import gql from 'graphql-tag'
 import { List } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
+
+import GET_POST from '../../queries/GetPost'
 
 import Loading from '../Loading'
 import Comment from './Comment'
@@ -21,31 +22,6 @@ const useStyles = makeStyles({
     }
   }
 })
-
-const GET_POST = gql`
-  query getPost($id: ID!) {
-    post(id: $id) {
-      id
-      title
-      content
-      createdAt
-      comments {
-        id
-        content
-        createdAt
-        user {
-          id
-          name
-        }
-      }
-      user {
-        id
-        name
-        role
-      }
-    }
-  }
-`
 
 const PostPage = props => {    
   const classes = useStyles()

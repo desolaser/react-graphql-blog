@@ -1,9 +1,9 @@
 import React from 'react'
-import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import { FormControl, InputLabel, TextField, Button, Select, MenuItem } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 
+import GET_CATEGORY_NAMES_AND_IDS from '../../queries/GetCategoryNamesAndIds'
 import Loading from '../Loading'
 
 const useStyles = makeStyles({  
@@ -13,19 +13,10 @@ const useStyles = makeStyles({
   }
 })
 
-const GET_CATEGORIES = gql`
-  {
-    categories {
-      id
-      name
-    }
-  }
-`
-
 const TopicForm = ({name, setName, categoryId, setCategoryId, handleSubmit}) => {
   const classes = useStyles()
 
-  const { loading, error, data } = useQuery(GET_CATEGORIES)
+  const { loading, error, data } = useQuery(GET_CATEGORY_NAMES_AND_IDS)
 
   if (loading) return <Loading />
   if (error) return `Error! ${error.message}`
