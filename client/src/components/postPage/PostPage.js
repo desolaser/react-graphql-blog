@@ -1,11 +1,12 @@
 import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import { Typography, List, Card, CardContent, CardHeader } from '@material-ui/core'
+import { List } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 
-import dateFormatter from '../../utils/dateFormatter'
 import Loading from '../Loading'
+import Comment from './Comment'
+import Post from './Post'
 
 const useStyles = makeStyles({
   root: {
@@ -18,9 +19,6 @@ const useStyles = makeStyles({
       backgroundColor: '#FFFFFF',
       marginBottom: '5px',
     }
-  },
-  card: {
-    marginBottom: '10px'
   }
 })
 
@@ -53,53 +51,18 @@ const PostPage = props => {
   const classes = useStyles()
 
   const { loading, error, data } = useQuery(GET_POST, {
-      variables: { id: props.match.params.id }
+    variables: { id: props.match.params.id }
   })
 
   if (loading) return <Loading />
   if (error) return `Error ${error.message}`
   
-  const formattedDate = dateFormatter(data.post.createdAt)
-  
   return (
     <div className={classes.root}>
-      <Card>
-        <CardHeader
-          title={data.post.user.name}
-          subheader={data.post.user.role}
-        />
-        <CardContent>
-          <Typography variant="h6">
-            {data.post.title}
-          </Typography>
-          <Typography color="textSecondary">
-            {data.post.content}
-          </Typography>
-          <Typography color="textSecondary">
-            {formattedDate}
-          </Typography>
-        </CardContent>
-      </Card>
+      <Post post={data.post}/>
       <List component="nav">
-        {data.post.comments.map(comment => {          
-          const formattedDate = dateFormatter(comment.createdAt)
-          return (
-            <Card className={classes.card}>
-              <CardHeader
-                title={comment.user.name}
-                subheader={comment.user.role}
-              />
-              <CardContent>
-                <Typography color="textSecondary">
-                  {comment.content}
-                </Typography>
-                <Typography color="textSecondary">
-                  {formattedDate}
-                </Typography>
-              </CardContent>
-            </Card>
-          )
-        })}
+        {data.post.comments.map(comment => 
+          <Comment key={comment.id} comment={comment} />)}
       </List>
     </div>
   )
