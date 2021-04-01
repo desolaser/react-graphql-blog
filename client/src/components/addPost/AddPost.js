@@ -32,20 +32,20 @@ const AddPost = () => {
   const [addPost, { data }] = useMutation(ADD_POST);
 
   const handleSubmit = e => {
-      e.preventDefault()
+    e.preventDefault()
 
-      addPost({ variables: {
-          title,
-          content,
-          topicId,
-          userId: "5f19a89406e46c239cb04040",
-      } })
+    addPost({ variables: {
+        title,
+        content,
+        topicId,
+        userId: "5f19a89406e46c239cb04040",
+    } })
 
-      setTitle("")
-      setContent("")
+    setTitle("")
+    setContent("")
 
-      console.log(data)
-      alert("Post added.")
+    console.log(data)
+    alert("Post added.")
   }
 
   return (

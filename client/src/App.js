@@ -3,9 +3,9 @@ import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
 import { Container, CssBaseline } from '@material-ui/core'
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route
+  BrowserRouter as Router,
+  Switch,
+  Route
 } from "react-router-dom";
 
 import Navbar from './components/navbar'
@@ -17,28 +17,28 @@ import AddPost from './components/addPost'
 import Footer from './components/footer'
 
 const client = new ApolloClient({
-    uri: 'http://localhost:4000/graphql'
+  uri: 'http://localhost:4000/graphql'
 })
 
 const App = () => {
-    return (
-        <ApolloProvider client={client}>
-            <CssBaseline/>
-            <Router>
-                <Header/>
-                <Navbar/>
-                <Container fixed style={{ minHeight: "100vh" }}>
-                    <Switch>
-                        <Route exact path="/" component={MainPage} />
-                        <Route path="/topic/:id" component={TopicPage} />
-                        <Route path="/post/:id" component={PostPage} />
-                        <Route path="/add-post" component={AddPost} />
-                    </Switch>
-                </Container>
-                <Footer/>
-            </Router>
-        </ApolloProvider>
-    );
+  return (
+    <ApolloProvider client={client}>
+      <CssBaseline/>
+      <Router>
+        <Header/>
+        <Navbar/>
+        <Container fixed style={{ minHeight: "100vh" }}>
+          <Switch>
+            <Route exact path="/" component={MainPage} />
+            <Route path="/topic/:id" component={TopicPage} />
+            <Route path="/post/:id" component={PostPage} />
+            <Route path="/add-post" component={AddPost} />
+          </Switch>
+        </Container>
+        <Footer/>
+      </Router>
+    </ApolloProvider>
+  );
 }
 
 export default App;
