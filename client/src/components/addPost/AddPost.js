@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useMutation } from '@apollo/react-hooks'
-import { Card, CardContent } from '@material-ui/core'
+import { Card, CardHeader, CardContent } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 
 import ADD_POST from '../../mutations/AddPost'
@@ -40,6 +40,7 @@ const AddPost = () => {
 
   return (
     <Card className={classes.root}>
+      <CardHeader title="Add Post" />
       <CardContent>
         <PostForm
           title={title}

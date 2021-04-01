@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useMutation } from '@apollo/react-hooks'
-import { Card, CardContent } from '@material-ui/core'
+import { Card, CardHeader, CardContent } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 
 import ADD_TOPIC from '../../mutations/AddTopic'
@@ -35,6 +35,7 @@ const AddTopic = () => {
 
   return (
     <Card className={classes.root}>
+      <CardHeader title="Add Topic" />
       <CardContent>
         <TopicForm
           name={name}

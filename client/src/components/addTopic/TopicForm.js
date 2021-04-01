@@ -9,7 +9,8 @@ import Loading from '../Loading'
 const useStyles = makeStyles({  
   select: {
     width: '100%',
-    marginLeft: 8
+    marginLeft: 8,
+    marginBottom: 20
   }
 })
 
@@ -25,7 +26,7 @@ const TopicForm = ({name, setName, categoryId, setCategoryId, handleSubmit}) => 
     <>
       <TextField
         id="name"
-        label="name"
+        label="Name"
         style={{ margin: 8 }}
         placeholder="Name here"
         helperText="The name of the topic"
@@ -38,7 +39,7 @@ const TopicForm = ({name, setName, categoryId, setCategoryId, handleSubmit}) => 
         }}
       />
       <FormControl className={classes.select}>
-        <InputLabel id="categoryId">Topic</InputLabel>
+        <InputLabel id="categoryId">Category</InputLabel>
         <Select
           labelId="categoryId"
           id="categoryId"
@@ -50,12 +51,12 @@ const TopicForm = ({name, setName, categoryId, setCategoryId, handleSubmit}) => 
         </Select>
       </FormControl>
       <Button 
-          variant="contained" 
-          color="primary" 
-          style={{ marginBottom: 20 }}
-          onClick={handleSubmit}
+        variant="contained" 
+        color="primary" 
+        style={{ marginBottom: 20 }}
+        onClick={handleSubmit}
       >
-          Add Post
+        Add Post
       </Button>
     </>
   )
