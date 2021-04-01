@@ -11,6 +11,8 @@ import {
 import Navbar from './components/navbar'
 import Header from './components/header'
 import MainPage from './components/mainPage'
+import Login from './components/login'
+import SignIn from './components/signIn'
 import TopicPage from './components/topicPage'
 import PostPage from './components/postPage'
 import AddCategory from './components/addCategory'
@@ -32,6 +34,8 @@ const App = () => {
         <Container fixed style={{ minHeight: "100vh" }}>
           <Switch>
             <Route exact path="/" component={MainPage} />
+            <Route path="/login" component={Login} />
+            <Route path="/sign-in" component={SignIn} />
             <Route path="/topic/:id" component={TopicPage} />
             <Route path="/post/:id" component={PostPage} />
             <Route path="/add-category" component={AddCategory} />

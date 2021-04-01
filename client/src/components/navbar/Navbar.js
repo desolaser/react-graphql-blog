@@ -92,12 +92,16 @@ const Header = () => {
             inputProps={{ 'aria-label': 'search' }}
           />
         </div>
-        <Button variant="contained" color="primary">
-          Sign in
-        </Button>
-        <Button variant="contained" color="primary">
-          Login
-        </Button>
+        <Link to="/sign-in">
+          <Button variant="contained" color="primary">
+            Sign in
+          </Button>
+        </Link>
+        <Link to="/login">
+          <Button variant="contained" color="primary">
+            Login
+          </Button>
+        </Link>
         <Link to="/add-category">
           <Button variant="contained" color="primary">
             Add Category
