@@ -31,7 +31,7 @@ const App = () => {
       <Router>
         <Header/>
         <Navbar/>
-        <Container fixed style={{ minHeight: "100vh" }}>
+        <Container fixed style={{ minHeight: "100vh", padding: 20 }}>
           <Switch>
             <Route exact path="/" component={MainPage} />
             <Route path="/login" component={Login} />
