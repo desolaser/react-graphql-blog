@@ -98,6 +98,11 @@ const Header = () => {
         <Button variant="contained" color="primary">
           Login
         </Button>
+        <Link to="/add-category">
+          <Button variant="contained" color="primary">
+            Add Category
+          </Button>
+        </Link>
         <Link to="/add-topic">
           <Button variant="contained" color="primary">
             Add Topic
