@@ -22,7 +22,7 @@ const getTopics = gql`
   }
 `
 
-const AddPost = ({title, setTitle, topicId, setTopicId, content, setContent, handleSubmit}) => {
+const PostForm = ({title, setTitle, topicId, setTopicId, content, setContent, handleSubmit}) => {
   const classes = useStyles()
 
   const { loading, error, data } = useQuery(getTopics)
@@ -54,7 +54,7 @@ const AddPost = ({title, setTitle, topicId, setTopicId, content, setContent, han
           value={topicId}
           onChange={e => setTopicId(e.target.value)}
         >
-          {data.topics.map(topic => <MenuItem value={topic.id}>{topic.name}</MenuItem>)}
+          {data.topics.map(topic => <MenuItem key={topic.id} value={topic.id}>{topic.name}</MenuItem>)}
         </Select>
       </FormControl>     
       <TextField
@@ -83,4 +83,4 @@ const AddPost = ({title, setTitle, topicId, setTopicId, content, setContent, han
   )
 }
 
-export default AddPost
+export default PostForm
