@@ -8,7 +8,7 @@ import {
   Button,
   InputBase
 } from '@material-ui/core'
-
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,6 +23,8 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
+    textDecoration: 'none',
+    color: 'white',
   },
   search: {
     position: 'relative',
@@ -72,9 +74,11 @@ const Header = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" className={classes.title}>
-          React GraphQL Forum
-        </Typography>
+        <Link className={classes.title} to="/">
+          <Typography variant="h6">
+            React GraphQL Forum
+          </Typography>
+        </Link>
         <div className={classes.search}>
           <div className={classes.searchIcon}>
             <SearchIcon />
