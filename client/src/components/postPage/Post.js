@@ -1,29 +1,49 @@
 import React from 'react'
-import { Typography, Card, CardHeader, CardContent } from '@material-ui/core'
+import { Grid, Typography, Card, CardHeader, CardContent } from '@material-ui/core'
+import { makeStyles } from '@material-ui/styles'
 
 import dateFormatter from '../../utils/dateFormatter'
 
+const useStyles = makeStyles({
+  card: {
+    height: "100%"
+  }
+})
+
 const Post = ({post}) => {
+  const classes = useStyles()
   const formattedDate = dateFormatter(post.createdAt)
 
   return (
-    <Card>
-      <CardHeader
-        title={post.user.name}
-        subheader={post.user.role}
-      />
-      <CardContent>
-        <Typography variant="h6">
-          {post.title}
-        </Typography>
-        <Typography color="textSecondary">
-          {post.content}
-        </Typography>
-        <Typography color="textSecondary">
-          {formattedDate}
-        </Typography>
-      </CardContent>
-    </Card>
+    <Grid container direction={"row"} spacing={3}>
+      <Grid item xs={3}>
+        <Card className={classes.card}>
+          <CardContent>
+            <Typography variant="h6">
+              {post.user.name}
+            </Typography>
+            <Typography color="textSecondary">
+              {post.user.role}
+            </Typography>
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={9}>
+        <Card className={classes.card}>
+          <CardHeader
+            title={post.title}
+          />
+          <CardContent>
+            <Typography color="textSecondary">
+              {post.content}
+            </Typography>
+            <Typography color="textSecondary">
+              {formattedDate}
+            </Typography>
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
   )
 }
 
