@@ -98,6 +98,16 @@ const Header = () => {
         <Button variant="contained" color="primary">
           Login
         </Button>
+        <Link to="/add-topic">
+          <Button variant="contained" color="primary">
+            Add Topic
+          </Button>
+        </Link>
+        <Link to="/add-post">
+          <Button variant="contained" color="primary">
+            Add Post
+          </Button>
+        </Link>
       </Toolbar>
     </AppBar>
   )
