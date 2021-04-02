@@ -16,7 +16,7 @@ const AddPost = () => {
   const classes = useStyles()
 
   const [ name, setName ] = useState("")
-  const [addPost, { data }] = useMutation(ADD_CATEGORY);
+  const [addPost, { data }] = useMutation(ADD_CATEGORY)
 
   const handleSubmit = e => {
     e.preventDefault()
@@ -29,7 +29,7 @@ const AddPost = () => {
     setName("")
 
     console.log(data)
-    alert("Post added.")
+    alert("Category added.")
   }
 
   return (

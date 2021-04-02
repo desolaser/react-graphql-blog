@@ -30,7 +30,7 @@ const AddTopic = () => {
     setName("")
 
     console.log(data)
-    alert("Post added.")
+    alert("Topic added.")
   }
 
   return (
