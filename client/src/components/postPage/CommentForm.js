@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useMutation } from '@apollo/react-hooks'
+import { useMutation } from '@apollo/client'
 import { Card, CardHeader, CardContent, TextField, Button } from '@material-ui/core'
 
 import ADD_COMMENT from '../../mutations/AddComment'

@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 const GET_TOPIC_NAMES_AND_IDS = gql`
   {

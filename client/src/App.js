@@ -1,12 +1,11 @@
 import React from 'react';
-import ApolloClient from 'apollo-boost'
-import { ApolloProvider } from 'react-apollo'
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 import { Container, CssBaseline } from '@material-ui/core'
 import {
   BrowserRouter as Router,
   Switch,
   Route
-} from "react-router-dom";
+} from "react-router-dom"
 
 import Navbar from './components/navbar'
 import Header from './components/header'
@@ -21,7 +20,8 @@ import AddPost from './components/addPost'
 import Footer from './components/footer'
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql'
+  uri: 'http://localhost:4000/graphql',
+  cache: new InMemoryCache()
 })
 
 const App = () => {

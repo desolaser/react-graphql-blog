@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import { gql } from '@apollo/client'
 
 const ADD_CATEGORY = gql`
   mutation AddCategory($name: String!, $userId: ID!) {
