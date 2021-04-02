@@ -8,6 +8,7 @@ import GET_POST from '../../queries/GetPost'
 import Loading from '../Loading'
 import Comment from './Comment'
 import Post from './Post'
+import CommentForm from './CommentForm'
 
 const useStyles = makeStyles({
   root: {
@@ -25,9 +26,10 @@ const useStyles = makeStyles({
 
 const PostPage = props => {    
   const classes = useStyles()
+  const postId = props.match.params.id
 
   const { loading, error, data } = useQuery(GET_POST, {
-    variables: { id: props.match.params.id }
+    variables: { id: postId }
   })
 
   if (loading) return <Loading />
@@ -36,6 +38,7 @@ const PostPage = props => {
   return (
     <div className={classes.root}>
       <Post post={data.post}/>
+      <CommentForm postId={postId} />
       <List component="nav">
         {data.post.comments.map(comment => 
           <Comment key={comment.id} comment={comment} />)}
