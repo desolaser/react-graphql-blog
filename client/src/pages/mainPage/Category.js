@@ -2,15 +2,14 @@ import React from 'react'
 import { 
   AppBar, 
   Typography,
-  List, 
-  ListItem, 
-  ListItemText, 
+  List,
   Grid, 
   Card, 
-  CardContent }
-from '@material-ui/core'
+  CardContent
+} from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-import dateFormatter from '../../utils/dateFormatter'
+
+import Topic from './Topic'
 
 const useStyles = makeStyles({
   root: {
@@ -52,14 +51,7 @@ const Category = ({data}) => {
           </Card>
         )
         :
-        data.topics.map(topic => {
-          const formattedDate = dateFormatter(topic.createdAt)
-          return (
-            <ListItem key={topic.id} className="topic-item" component="a" href={`/topic/${topic.id}`} button>
-              <ListItemText primary={topic.name} secondary={`Created by ${topic.user.name} - ${formattedDate}`} />
-            </ListItem>
-          )
-        })}
+        data.topics.map(topic => <Topic key={topic.id} topic={topic} />)}
       </List>
     </div>
   )
