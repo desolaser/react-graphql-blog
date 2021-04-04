@@ -6,7 +6,7 @@ import { Card, CardContent, Typography } from '@material-ui/core'
 import GET_CATEGORIES from '../../queries/GetCategories'
 
 import Category from './Category'
-import Loading from '../Loading'
+import Loading from '../../components/Loading'
 
 const useStyles = makeStyles({
   categories: {

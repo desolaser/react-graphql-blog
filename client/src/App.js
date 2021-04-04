@@ -1,23 +1,22 @@
 import React from 'react';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
-import { Container, CssBaseline } from '@material-ui/core'
+import { CssBaseline } from '@material-ui/core'
 import {
   BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom"
 
-import Navbar from './components/navbar'
-import Header from './components/header'
-import MainPage from './components/mainPage'
-import Login from './components/login'
-import SignIn from './components/signIn'
-import TopicPage from './components/topicPage'
-import PostPage from './components/postPage'
-import AddCategory from './components/addCategory'
-import AddTopic from './components/addTopic'
-import AddPost from './components/addPost'
-import Footer from './components/footer'
+import Layout from './components/Layout'
+
+import MainPage from './pages/mainPage'
+import Login from './pages/login'
+import SignIn from './pages/signIn'
+import TopicPage from './pages/topicPage'
+import PostPage from './pages/postPage'
+import AddCategory from './pages/addCategory'
+import AddTopic from './pages/addTopic'
+import AddPost from './pages/addPost'
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
@@ -29,9 +28,7 @@ const App = () => {
     <ApolloProvider client={client}>
       <CssBaseline/>
       <Router>
-        <Header/>
-        <Navbar/>
-        <Container fixed style={{ minHeight: "100vh", padding: 20 }}>
+        <Layout>
           <Switch>
             <Route exact path="/" component={MainPage} />
             <Route path="/login" component={Login} />
@@ -42,8 +39,7 @@ const App = () => {
             <Route path="/add-topic" component={AddTopic} />
             <Route path="/add-post" component={AddPost} />
           </Switch>
-        </Container>
-        <Footer/>
+        </Layout>
       </Router>
     </ApolloProvider>
   );

@@ -4,7 +4,7 @@ import { FormControl, InputLabel, TextField, Button, Select, MenuItem } from '@m
 import { makeStyles } from '@material-ui/styles'
 
 import GET_TOPIC_NAMES_AND_IDS from '../../queries/GetTopicNamesAndIds'
-import Loading from '../Loading'
+import Loading from '../../components/Loading'
 
 const useStyles = makeStyles({  
   select: {

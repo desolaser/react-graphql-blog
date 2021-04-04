@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/styles'
 
 import GET_POST from '../../queries/GetPost'
 
-import Loading from '../Loading'
+import Loading from '../../components/Loading'
 import Comment from './Comment'
 import Post from './Post'
 import CommentForm from './CommentForm'

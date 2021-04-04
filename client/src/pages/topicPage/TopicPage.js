@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/styles'
 import GET_TOPIC from '../../queries/GetTopic'
 
 import dateFormatter from '../../utils/dateFormatter'
-import Loading from '../Loading'
+import Loading from '../../components/Loading'
 
 const useStyles = makeStyles({
   root: {
