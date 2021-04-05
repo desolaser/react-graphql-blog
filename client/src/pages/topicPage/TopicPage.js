@@ -1,12 +1,12 @@
 import React from 'react'
 import { useQuery } from '@apollo/client'
-import { AppBar, Typography, List, ListItem, ListItemText, Grid } from '@material-ui/core'
+import { AppBar, Typography, List, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 
 import GET_TOPIC from '../../queries/GetTopic'
 
-import dateFormatter from '../../utils/dateFormatter'
 import Loading from '../../components/Loading'
+import Post from './Post'
 
 const useStyles = makeStyles({
   root: {
@@ -45,14 +45,7 @@ const TopicPage = props => {
         </Grid>
       </AppBar>
       <List component="nav">
-        {data.topic.posts.map(post => {
-          const formattedDate = dateFormatter(post.createdAt)
-          return(
-            <ListItem key={post.id} className="topic-item" component="a" href={`/post/${post.id}`} button>
-              <ListItemText primary={post.title} secondary={`Created by ${post.user.name} - ${formattedDate}`} />
-            </ListItem>
-          )
-        })}
+        {data.topic.posts.map(post => <Post key={post.id} post={post}/>)}
       </List>
     </div>
   )
