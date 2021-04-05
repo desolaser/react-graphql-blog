@@ -258,6 +258,50 @@ const Mutation = new GraphQLObjectType ({
                 return user.save()
             }
         },
+        editUser: {
+            type: UserType,
+            args: {
+                id: { type: new GraphQLNonNull(GraphQLID) },
+                name: { type: GraphQLString },
+                email: { type: GraphQLString },
+                password: { type: GraphQLString },
+                role: { type: GraphQLString }
+            },
+            resolve(parent, args) {
+                return User.findByIdAndUpdate(args.id, 
+                {
+                    name: args.name,
+                    email: args.email,
+                    password: args.password,
+                    role: args.role,
+                })
+            }
+        },
+        deleteUser: {
+            type: UserType,
+            args: {
+                id: { type: new GraphQLNonNull(GraphQLID) },
+            },
+            async resolve(parent, args) {
+                let categories = await Category.find({ userId: args.id }) 
+                await Promise.all(categories.map(async (category) => {
+                    let topics = await Topic.find({ categoryId: category.id })
+                    topics.forEach(async topic => {
+                        let posts = await Post.find({ topicId: topic.id })
+                        posts.forEach(async post => {
+                            await Comment.deleteMany({ postId: post.id })
+                            post.delete()
+                        })
+                        topic.delete()
+                    })
+                    category.delete()
+                }))
+                await Topic.deleteMany({ userId: args.id })
+                await Post.deleteMany({ userId: args.id })
+                await Comment.deleteMany({ userId: args.id })
+                return User.findByIdAndDelete(args.id)
+            }
+        },
         addCategory: {
             type: CategoryType,
             args: {
@@ -270,6 +314,37 @@ const Mutation = new GraphQLObjectType ({
                     userId: args.userId
                 })
                 return category.save()
+            }
+        },
+        editCategory: {
+            type: CategoryType,
+            args: {
+                id: { type: new GraphQLNonNull(GraphQLID) },
+                name: { type: GraphQLString },
+            },
+            resolve(parent, args) {
+                return Category.findByIdAndUpdate(args.id, 
+                {
+                    name: args.name,
+                })
+            }
+        },
+        deleteCategory: {
+            type: CategoryType,
+            args: {
+                id: { type: new GraphQLNonNull(GraphQLID) },
+            },
+            async resolve(parent, args) {
+                let topics = await Topic.find({ categoryId: args.id })
+                topics.forEach(async topic => {
+                    let posts = await Post.find({ topicId: topic.id })
+                    posts.forEach(async post => {
+                        await Comment.deleteMany({ postId: post.id })
+                        post.delete()
+                    })
+                    topic.delete()
+                })
+                return Category.findByIdAndDelete(args.id)
             }
         },
         addTopic: {
@@ -286,6 +361,33 @@ const Mutation = new GraphQLObjectType ({
                     userId: args.userId
                 })
                 return topic.save()
+            }
+        },
+        editTopic: {
+            type: TopicType,
+            args: {
+                id: { type: new GraphQLNonNull(GraphQLID) },
+                name: { type: GraphQLString },
+            },
+            resolve(parent, args) {
+                return Topic.findByIdAndUpdate(args.id, 
+                {
+                    name: args.name,
+                })
+            }
+        },
+        deleteTopic: {
+            type: TopicType,
+            args: {
+                id: { type: new GraphQLNonNull(GraphQLID) },
+            },
+            async resolve(parent, args) {
+                let posts = await Post.find({ topicId: args.id })
+                posts.forEach(async post => {
+                    await Comment.deleteMany({ postId: post.id })
+                    post.delete()
+                })
+                return Topic.findByIdAndDelete(args.id)
             }
         },
         addPost: {
@@ -306,6 +408,31 @@ const Mutation = new GraphQLObjectType ({
                 return post.save()
             }
         },
+        editPost: {
+            type: PostType,
+            args: {
+                id: { type: new GraphQLNonNull(GraphQLID) },
+                title: { type: GraphQLString },
+                content: { type: GraphQLString },
+            },
+            resolve(parent, args) {
+                return Post.findByIdAndUpdate(args.id, 
+                {
+                    title: args.title,
+                    content: args.content,
+                })
+            }
+        },
+        deletePost: {
+            type: PostType,
+            args: {
+                id: { type: new GraphQLNonNull(GraphQLID) },
+            },
+            async resolve(parent, args) {
+                await Comment.deleteMany({ postId: args.id })
+                return Post.findByIdAndDelete(args.id)
+            }
+        },
         addComment: {
             type: CommentType,
             args: {
@@ -321,7 +448,29 @@ const Mutation = new GraphQLObjectType ({
                 })
                 return comment.save()
             }
-        }
+        },
+        editComment: {
+            type: CommentType,
+            args: {
+                id: { type: new GraphQLNonNull(GraphQLID) },
+                content: { type: GraphQLString },
+            },
+            resolve(parents, args) {
+                return Comment.findByIdAndUpdate(args.id, 
+                {
+                    content: args.content,
+                })
+            }
+        },
+        deleteComment: {
+            type: CommentType,
+            args: {
+                id: { type: new GraphQLNonNull(GraphQLID) },
+            },
+            resolve(parent, args) {
+                return Comment.findByIdAndDelete(args.id)
+            }
+        },
     }
 })
 
