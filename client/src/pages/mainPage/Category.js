@@ -25,7 +25,7 @@ const useStyles = makeStyles({
   }
 })
 
-const Category = ({data}) => {
+const Category = ({ data }) => {
   const classes = useStyles()
 
   return (
