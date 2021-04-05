@@ -5,7 +5,9 @@ const {
     GraphQLSchema,
     GraphQLID,
     GraphQLList,
-    GraphQLNonNull
+    GraphQLNonNull,
+    GraphQLScalarType,
+    Kind
 } = graphql
 
 const User = require('../model/User')
@@ -13,6 +15,23 @@ const Topic = require('../model/Topic')
 const Category = require('../model/Category')
 const Post = require('../model/Post')
 const Comment = require('../model/Comment')
+
+const DateScalar = new GraphQLScalarType({
+    name: "Date",
+    description: "Date scalar type",
+    parseValue(value) {
+        return new Date(value); // value from the client input variables
+    },
+    serialize(value) {
+        return value.toISOString(); // value sent to the client
+    },
+    parseLiteral(ast) {
+        if (ast.kind === Kind.STRING) {
+            return new Date(ast.value); // value from the client query
+        }
+        return null;
+    },
+});
 
 const UserType = new GraphQLObjectType({
     name: 'User',
@@ -22,6 +41,7 @@ const UserType = new GraphQLObjectType({
         email: { type: GraphQLString },
         password: { type: GraphQLString },
         role: { type: GraphQLString },
+        createdAt: { type: DateScalar },
         categories: {
             type: new GraphQLList(CategoryType),
             resolve(parent, args) {
@@ -54,6 +74,7 @@ const CategoryType = new GraphQLObjectType({
     fields: () => ({
         id: { type: GraphQLID },
         name: { type: GraphQLString },
+        createdAt: { type: DateScalar },
         user: {
             type: UserType,
             resolve(parent, args) {
@@ -74,6 +95,7 @@ const TopicType = new GraphQLObjectType({
     fields: () => ({
         id: { type: GraphQLID },
         name: { type: GraphQLString },
+        createdAt: { type: DateScalar },
         user: {
             type: UserType,
             resolve(parent, args) {
@@ -101,6 +123,7 @@ const PostType = new GraphQLObjectType({
         id: { type: GraphQLID },
         title: { type: GraphQLString },
         content: { type: GraphQLString },
+        createdAt: { type: DateScalar },
         user: {
             type: UserType,
             resolve(parent, args) {
@@ -127,6 +150,7 @@ const CommentType = new GraphQLObjectType({
     fields: () => ({
         id: { type: GraphQLID },
         content: { type: GraphQLString },
+        createdAt: { type: DateScalar },
         user: {
             type: UserType,
             resolve(parent, args) {
