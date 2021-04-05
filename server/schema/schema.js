@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
 const graphql = require('graphql')
 const { 
     GraphQLObjectType, 
@@ -15,6 +17,8 @@ const Topic = require('../model/Topic')
 const Category = require('../model/Category')
 const Post = require('../model/Post')
 const Comment = require('../model/Comment')
+
+const APP_SECRET = 'GraphQL-is-aw3some'
 
 const DateScalar = new GraphQLScalarType({
     name: "Date",
@@ -166,6 +170,13 @@ const CommentType = new GraphQLObjectType({
     })
 })
 
+const TokenType = new GraphQLObjectType({
+    name: 'Token',
+    fields: () => ({
+        payload: { type: GraphQLString },
+    })
+})
+
 const RootType = new GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
@@ -252,7 +263,7 @@ const Mutation = new GraphQLObjectType ({
                 let user = new User({
                     name: args.name,
                     email: args.email,
-                    password: args.password,
+                    password: bcrypt.hash(args.password, 10),
                     role: args.role
                 })
                 return user.save()
@@ -471,6 +482,49 @@ const Mutation = new GraphQLObjectType ({
                 return Comment.findByIdAndDelete(args.id)
             }
         },
+        signup: {
+            type: TokenType,
+            args: {
+                name: { type: new GraphQLNonNull(GraphQLString) },
+                email: { type: new GraphQLNonNull(GraphQLString) },
+                password: { type: new GraphQLNonNull(GraphQLString) }
+            },
+            async resolve(parent, args) {
+                const password = await bcrypt.hash(args.password, 10)                
+                let user = new User({
+                    name: args.name,
+                    email: args.email,
+                    password: password,
+                    role: "User"
+                })
+                await user.save()
+                return {
+                    payload: jwt.sign({ userId: user.id }, APP_SECRET)
+                }
+            }
+        },
+        login: {
+            type: TokenType,
+            args: {
+                username: { type: new GraphQLNonNull(GraphQLString) },
+                password: { type: new GraphQLNonNull(GraphQLString) },
+            },
+            async resolve(parent, args) {
+                const user = await User.findOne({ name: args.username })
+                if (!user) {
+                    throw new Error('No such user found')
+                }
+
+                const valid = await bcrypt.compare(args.password, user.password)
+                if (!valid) {
+                    throw new Error('Invalid password')
+                }
+
+                return {
+                    payload: jwt.sign({ userId: user.id }, APP_SECRET)
+                }
+            }
+        }
     }
 })
 
