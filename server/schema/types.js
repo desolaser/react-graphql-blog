@@ -151,6 +151,7 @@ const TokenType = new GraphQLObjectType({
   name: 'Token',
   fields: () => ({
       payload: { type: GraphQLString },
+      user: { type: UserType }
   })
 })
 
