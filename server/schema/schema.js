@@ -1,3 +1,4 @@
+require('dotenv').config({ path: '../.env' })
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const graphql = require('graphql')
@@ -17,8 +18,6 @@ const Topic = require('../model/Topic')
 const Category = require('../model/Category')
 const Post = require('../model/Post')
 const Comment = require('../model/Comment')
-
-const APP_SECRET = 'GraphQL-is-aw3some'
 
 const DateScalar = new GraphQLScalarType({
     name: "Date",
@@ -259,7 +258,10 @@ const Mutation = new GraphQLObjectType ({
                 password: { type: new GraphQLNonNull(GraphQLString) },
                 role: { type: new GraphQLNonNull(GraphQLString) }
             },
-            resolve(parent, args) {
+            resolve(parent, args, context) {
+                if (!context.user || context.user.role != 'Admin') {
+                    throw new Error('Only admins can add users')
+                }
                 let user = new User({
                     name: args.name,
                     email: args.email,
@@ -278,14 +280,23 @@ const Mutation = new GraphQLObjectType ({
                 password: { type: GraphQLString },
                 role: { type: GraphQLString }
             },
-            resolve(parent, args) {
-                return User.findByIdAndUpdate(args.id, 
-                {
+            async resolve(parent, args, context) {
+                let user = await User.findById(args.id)
+                if(!context.user) {
+                    throw new Error('User not authenticated')
+                }
+                if (context.user.id != user.id) {
+                    if (context.user.admin != "Admin") {
+                        throw new Error('You are not the owner of the post or you are not an admin')
+                    }
+                }
+                await user.update({
                     name: args.name,
                     email: args.email,
                     password: args.password,
                     role: args.role,
                 })
+                return user.save()
             }
         },
         deleteUser: {
@@ -293,7 +304,17 @@ const Mutation = new GraphQLObjectType ({
             args: {
                 id: { type: new GraphQLNonNull(GraphQLID) },
             },
-            async resolve(parent, args) {
+            async resolve(parent, args, context) {
+                let user = await User.findById(args.id)
+                if(!context.user) {
+                    throw new Error('User not authenticated')
+                }
+                if (context.user.id != user.id) {
+                    if (context.user.admin != "Admin") {
+                        throw new Error('You are not the owner of the post or you are not an admin')
+                    }
+                }
+
                 let categories = await Category.find({ userId: args.id }) 
                 await Promise.all(categories.map(async (category) => {
                     let topics = await Topic.find({ categoryId: category.id })
@@ -310,7 +331,7 @@ const Mutation = new GraphQLObjectType ({
                 await Topic.deleteMany({ userId: args.id })
                 await Post.deleteMany({ userId: args.id })
                 await Comment.deleteMany({ userId: args.id })
-                return User.findByIdAndDelete(args.id)
+                return user.delete()
             }
         },
         addCategory: {
@@ -319,7 +340,10 @@ const Mutation = new GraphQLObjectType ({
                 name: { type: new GraphQLNonNull(GraphQLString) },
                 userId: { type: new GraphQLNonNull(GraphQLID) }
             },
-            resolve(parent, args) {
+            resolve(parent, args, context) {
+                if (!context.user || context.user.role != 'Admin') {
+                    throw new Error('You are not authenticated or you are not an admin')
+                }
                 let category = new Category({
                     name: args.name,
                     userId: args.userId
@@ -333,11 +357,18 @@ const Mutation = new GraphQLObjectType ({
                 id: { type: new GraphQLNonNull(GraphQLID) },
                 name: { type: GraphQLString },
             },
-            resolve(parent, args) {
-                return Category.findByIdAndUpdate(args.id, 
-                {
+            async resolve(parent, args, context) {
+                let category = await Category.findById(args.id)
+                if (!context.user || context.user.role != 'Admin') {
+                    throw new Error('You are not authenticated or you are not an admin')
+                }
+                if (context.user.id != category.userId) {
+                    throw new Error('Only the owner of the category can modify it')
+                }
+                await category.update({
                     name: args.name,
                 })
+                return category.save()
             }
         },
         deleteCategory: {
@@ -345,7 +376,14 @@ const Mutation = new GraphQLObjectType ({
             args: {
                 id: { type: new GraphQLNonNull(GraphQLID) },
             },
-            async resolve(parent, args) {
+            async resolve(parent, args, context) {
+                let category = await Category.findById(args.id)
+                if (!context.user || context.user.role != 'Admin') {
+                    throw new Error('You are not authenticated or you are not an admin')
+                }
+                if (context.user.id != category.userId) {
+                    throw new Error('Only the owner of the category can delete it')
+                }
                 let topics = await Topic.find({ categoryId: args.id })
                 topics.forEach(async topic => {
                     let posts = await Post.find({ topicId: topic.id })
@@ -355,7 +393,7 @@ const Mutation = new GraphQLObjectType ({
                     })
                     topic.delete()
                 })
-                return Category.findByIdAndDelete(args.id)
+                return category.delete()
             }
         },
         addTopic: {
@@ -365,7 +403,10 @@ const Mutation = new GraphQLObjectType ({
                 categoryId: { type: new GraphQLNonNull(GraphQLID) },
                 userId: { type: new GraphQLNonNull(GraphQLID) }
             },
-            resolve(parent, args) {
+            async resolve(parent, args, context) {
+                if (!context.user || context.user.role != "Admin") {
+                    throw new Error('You are not authenticated or you are not an admin')
+                }
                 let topic = new Topic({
                     name: args.name,
                     categoryId: args.categoryId,
@@ -380,11 +421,16 @@ const Mutation = new GraphQLObjectType ({
                 id: { type: new GraphQLNonNull(GraphQLID) },
                 name: { type: GraphQLString },
             },
-            resolve(parent, args) {
-                return Topic.findByIdAndUpdate(args.id, 
-                {
-                    name: args.name,
-                })
+            async resolve(parent, args, context) {
+                let topic = await Topic.findById(args.id)
+                if (!context.user || context.user.role != "Admin") {
+                    throw new Error('You are not authenticated or you are not an admin')
+                }
+                if (context.user.id != Topic.userId) {
+                    throw new Error('Only the owner of the topic can edit it')
+                }
+                await topic.update({ name: args.name })
+                return topic.save()
             }
         },
         deleteTopic: {
@@ -392,13 +438,20 @@ const Mutation = new GraphQLObjectType ({
             args: {
                 id: { type: new GraphQLNonNull(GraphQLID) },
             },
-            async resolve(parent, args) {
+            async resolve(parent, args, context) {
+                let topic = await Topic.findById(args.id)
+                if (!context.user || context.user.role != "Admin") {
+                    throw new Error('You are not authenticated or you are not an admin')
+                }
+                if (context.user.id != Topic.userId) {
+                    throw new Error('Only the owner of the topic can delete it')
+                }
                 let posts = await Post.find({ topicId: args.id })
                 posts.forEach(async post => {
                     await Comment.deleteMany({ postId: post.id })
                     post.delete()
                 })
-                return Topic.findByIdAndDelete(args.id)
+                return topic.delete()
             }
         },
         addPost: {
@@ -409,7 +462,10 @@ const Mutation = new GraphQLObjectType ({
                 topicId: { type: new GraphQLNonNull(GraphQLID) },
                 userId: { type: new GraphQLNonNull(GraphQLID) }
             },
-            resolve(parent, args) {
+            resolve(parent, args, context) {
+                if (!context.user) {
+                    throw new Error('User not authenticated')
+                }
                 let post = new Post({
                     title: args.title,
                     content: args.content,
@@ -426,12 +482,19 @@ const Mutation = new GraphQLObjectType ({
                 title: { type: GraphQLString },
                 content: { type: GraphQLString },
             },
-            resolve(parent, args) {
-                return Post.findByIdAndUpdate(args.id, 
-                {
+            async resolve(parent, args, context) {
+                let post = Post.findById(args.id)
+                if (!context.user) {
+                    throw new Error('User not authenticated')
+                }
+                if (context.user.id != post.userId) {
+                    throw new Error('Only the owner of the post can edit it')
+                }
+                await post.update({
                     title: args.title,
                     content: args.content,
                 })
+                return post.save()
             }
         },
         deletePost: {
@@ -439,9 +502,16 @@ const Mutation = new GraphQLObjectType ({
             args: {
                 id: { type: new GraphQLNonNull(GraphQLID) },
             },
-            async resolve(parent, args) {
+            async resolve(parent, args, context) {
+                let post = Post.findById(args.id)
+                if (!context.user) {
+                    throw new Error('User not authenticated')
+                }
+                if (context.user.id != post.userId) {
+                    throw new Error('Only the owner of the post can delete it')
+                }
                 await Comment.deleteMany({ postId: args.id })
-                return Post.findByIdAndDelete(args.id)
+                return post.delete()
             }
         },
         addComment: {
@@ -451,7 +521,10 @@ const Mutation = new GraphQLObjectType ({
                 postId: { type: new GraphQLNonNull(GraphQLID) },
                 userId: { type: new GraphQLNonNull(GraphQLID) }
             },
-            resolve(parents, args) {
+            resolve(parent, args, context) {
+                if (!context.user) {
+                    throw new Error('User not authenticated')
+                }
                 let comment = new Comment({
                     content: args.content,
                     postId: args.postId,
@@ -466,11 +539,16 @@ const Mutation = new GraphQLObjectType ({
                 id: { type: new GraphQLNonNull(GraphQLID) },
                 content: { type: GraphQLString },
             },
-            resolve(parents, args) {
-                return Comment.findByIdAndUpdate(args.id, 
-                {
-                    content: args.content,
-                })
+            async resolve(parent, args, context) {
+                let comment = Comment.findById(args.id)
+                if (!context.user) {
+                    throw new Error('User not authenticated')
+                }
+                if (context.user.id != comment.userId) {
+                    throw new Error('Only the owner of the comment can edit it')
+                }
+                await comment.update({ content: args.content })
+                return comment.save()
             }
         },
         deleteComment: {
@@ -478,11 +556,18 @@ const Mutation = new GraphQLObjectType ({
             args: {
                 id: { type: new GraphQLNonNull(GraphQLID) },
             },
-            resolve(parent, args) {
-                return Comment.findByIdAndDelete(args.id)
+            async resolve(parent, args, context) {
+                let comment = Comment.findById(args.id)
+                if (!context.user) {
+                    throw new Error('User not authenticated')
+                }
+                if (context.user.id != comment.userId) {
+                    throw new Error('Only the owner of the comment can delete it')
+                }
+                return comment.delete()
             }
         },
-        signup: {
+        signUp: {
             type: TokenType,
             args: {
                 name: { type: new GraphQLNonNull(GraphQLString) },
@@ -499,7 +584,12 @@ const Mutation = new GraphQLObjectType ({
                 })
                 await user.save()
                 return {
-                    payload: jwt.sign({ userId: user.id }, APP_SECRET)
+                    payload: 
+                        jwt.sign(
+                            { id: user.id, email: user.email, role: user.role }, 
+                            process.env.JWT_SECRET,
+                            { expiresIn: '1y' }
+                        )
                 }
             }
         },
@@ -521,7 +611,12 @@ const Mutation = new GraphQLObjectType ({
                 }
 
                 return {
-                    payload: jwt.sign({ userId: user.id }, APP_SECRET)
+                    payload: 
+                        jwt.sign(
+                            { id: user.id, email: user.email, role: user.role }, 
+                            process.env.JWT_SECRET,
+                            { expiresIn: '1d' }
+                        )
                 }
             }
         }
