@@ -1,4 +1,4 @@
-require('dotenv').config({path: './env'})
+require('dotenv').config()
 const express = require('express')
 const graphqlHTTP = require('express-graphql')
 const mongoose = require('mongoose')
@@ -10,7 +10,7 @@ const schema = require('./schema/schema')
 const app = express()
 
 const auth = jwt({
-    secret: '1221eqwdkjkdl',
+    secret: process.env.JWT_SECRET,
     algorithms: ['RS256'],
     credentialsRequired: false
 })
