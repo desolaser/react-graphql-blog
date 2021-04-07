@@ -11,7 +11,7 @@ import Layout from './components/Layout'
 
 import MainPage from './pages/mainPage'
 import Login from './pages/login'
-import SignIn from './pages/signIn'
+import SignUp from './pages/signUp'
 import TopicPage from './pages/topicPage'
 import PostPage from './pages/postPage'
 import AddCategory from './pages/addCategory'
@@ -32,7 +32,7 @@ const App = () => {
           <Switch>
             <Route exact path="/" component={MainPage} />
             <Route path="/login" component={Login} />
-            <Route path="/sign-in" component={SignIn} />
+            <Route path="/sign-up" component={SignUp} />
             <Route path="/topic/:id" component={TopicPage} />
             <Route path="/post/:id" component={PostPage} />
             <Route path="/add-category" component={AddCategory} />
