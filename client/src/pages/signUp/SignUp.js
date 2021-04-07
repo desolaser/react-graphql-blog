@@ -8,7 +8,7 @@ import SIGN_UP from '../../mutations/SignUp'
 import SignUpForm from './SignUpForm'
 
 const INITIAL_DATA = {
-  username: "",
+  name: "",
   email: "",
   password: ""
 }
@@ -29,7 +29,7 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    signUpMutation(data)
+    signUpMutation({ variables: data })
       .then(({data}) => {
         if (data.signUp) {
           dispatch(login({
@@ -37,7 +37,7 @@ const SignUp = () => {
             token: data.signUp.payload
           }))
           setData(INITIAL_DATA)
-          alert("Login successful")
+          alert("Account registered, login successful")
           history.push('/')
         }
       })

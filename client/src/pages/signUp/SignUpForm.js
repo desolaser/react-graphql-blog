@@ -25,11 +25,11 @@ const SignUpForm = ({ data, handleChange, handleSubmit }) => {
       <CardContent>
         <TextField 
           className={classes.input}
-          name="username"
+          name="name"
           label="Username"
           placeholder="Username"
           helperText="Insert your username"
-          value={data.username}
+          value={data.name}
           onChange={handleChange}
           InputLabelProps={{
               shrink: true,
@@ -64,8 +64,8 @@ const SignUpForm = ({ data, handleChange, handleSubmit }) => {
         className={classes.button} 
         variant="contained" 
         color="primary"
-        onChange={handleSubmit}>
-        Sign In
+        onClick={handleSubmit}>
+        Sign Up
       </Button>
     </Card>
   )
