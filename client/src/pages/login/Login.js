@@ -1,43 +1,53 @@
-import React from 'react'
-import { Card, CardHeader, CardContent, TextField, Button } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { useMutation } from '@apollo/client'
+import { useHistory } from 'react-router-dom'
 
-const useStyles = makeStyles({
-  root: {
-    padding: 20,
-    textAlign: 'center',
-  },
-  input: {
-    width: '100%',
-    marginTop: 20,
-    marginBottom: 20
-  },
-  button: {
-    marginTop: 20,
-  }
-})
+import { login } from '../../redux/reducers/authSlice'
+import LOGIN from '../../mutations/Login'
+import LoginForm from './LoginForm'
+
+const INITIAL_DATA = {
+  username: "",
+  password: ""
+}
 
 const Login = () => {
-  const classes = useStyles()
+  const history = useHistory()
+  const dispatch = useDispatch()
+
+  const [data, setData] = useState(INITIAL_DATA)
+  const [loginMutation, { errors }] = useMutation(LOGIN)
+
+  const handleChange = (e) => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    loginMutation({ variables: data })
+      .then(({ data }) => {
+        if (data.login) {
+          dispatch(login({
+            user: data.login.user,
+            token: data.login.payload
+          }))
+          alert("Login successful")
+          setData(INITIAL_DATA)
+          history.push('/')
+        }
+      })
+      .catch(err => {
+        console.log(err.message)
+      })
+    if (errors) return alert(errors.message)
+  }
+
   return (
-    <Card className={classes.root}>
-      <CardHeader title="Login" />
-      <CardContent>
-        <TextField 
-          className={classes.input}
-          label="Name"
-          placeholder="Username"
-        />
-        <TextField 
-          className={classes.input}
-          label="Password"
-          placeholder="Your Password"
-        />
-      </CardContent>
-      <Button className={classes.button} variant="contained" color="primary">
-        Login
-      </Button>
-    </Card>
+    <LoginForm data={data} handleChange={handleChange} handleSubmit={handleSubmit}/>
   )
 }
 
