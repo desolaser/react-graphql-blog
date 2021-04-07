@@ -5,10 +5,10 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  Button,
   InputBase
 } from '@material-ui/core'
 import { Link } from "react-router-dom";
+import NavbarButtons from './NavbarButtons';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -92,31 +92,7 @@ const Header = () => {
             inputProps={{ 'aria-label': 'search' }}
           />
         </div>
-        <Link to="/sign-up">
-          <Button variant="contained" color="primary">
-            Sign up
-          </Button>
-        </Link>
-        <Link to="/login">
-          <Button variant="contained" color="primary">
-            Login
-          </Button>
-        </Link>
-        <Link to="/add-category">
-          <Button variant="contained" color="primary">
-            Add Category
-          </Button>
-        </Link>
-        <Link to="/add-topic">
-          <Button variant="contained" color="primary">
-            Add Topic
-          </Button>
-        </Link>
-        <Link to="/add-post">
-          <Button variant="contained" color="primary">
-            Add Post
-          </Button>
-        </Link>
+        <NavbarButtons />       
       </Toolbar>
     </AppBar>
   )
