@@ -1,8 +1,10 @@
 import React from 'react'
 import { Typography, Card, CardHeader, CardContent } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
+import { useSelector } from 'react-redux'
 
 import dateFormatter from '../../utils/dateFormatter'
+import validateAuth from '../../validation/validateAuth'
 import EditDeleteButtons from '../../components/EditDeleteButtons'
 
 const useStyles = makeStyles({
@@ -13,6 +15,7 @@ const useStyles = makeStyles({
 
 const Comment = ({comment}) => {
   const classes = useStyles()
+  const auth = useSelector(store => store.auth)
   const formattedDate = dateFormatter(comment.createdAt)
 
   const editComment = () => {
@@ -37,7 +40,11 @@ const Comment = ({comment}) => {
           {formattedDate}
         </Typography>
       </CardContent>
-      <EditDeleteButtons editFunction={editComment} deleteFunction={deleteComment} />
+      {validateAuth(auth, comment.user.id) ? 
+        <EditDeleteButtons editFunction={editComment} deleteFunction={deleteComment} />
+        :
+        null
+      }
     </Card>
   )
 }
