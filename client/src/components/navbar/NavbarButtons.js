@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
+import { persistor } from '../../redux/store'
 import { logout } from '../../redux/reducers/authSlice'
 
 const NavbarButtons = () => {
@@ -13,6 +14,7 @@ const NavbarButtons = () => {
 
   const handleLogout = (e) => {
     dispatch(logout())
+    persistor.purge()
     alert("User logged out")
     history.push('/')
     history.go(0)
