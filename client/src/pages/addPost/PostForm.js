@@ -74,8 +74,8 @@ const PostForm = ({title, setTitle, topicId, setTopicId, content, setContent, ha
         />
       </FormControl>
       <Typography mt={2} variant="h5" mb={2}>Preview</Typography>
-      <Box my={2} dangerouslySetInnerHTML={{__html:md.render(content)}}>
-      </Box>
+      <Typography my={2} dangerouslySetInnerHTML={{__html: md.render(content)}}>
+      </Typography>
       <Button 
         variant="contained" 
         color="primary" 
