@@ -37,7 +37,7 @@ const Post = ({post}) => {
             <Typography color="textSecondary">
               {post.content}
             </Typography>
-            <Typography color="textSecondary">
+            <Typography mt={4} color="textSecondary">
               {formattedDate}
             </Typography>
           </CardContent>
