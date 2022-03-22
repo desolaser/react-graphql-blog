@@ -1,21 +1,30 @@
 import React from 'react'
 import { useQuery } from '@apollo/client'
-import { FormControl, InputLabel, TextField, Button, Select, MenuItem, TextareaAutosize } from '@material-ui/core'
+import { 
+  Box,
+  FormControl, 
+  InputLabel, 
+  TextField, 
+  Button, 
+  Select, 
+  Typography,
+  MenuItem
+} from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-
+import { Remarkable } from 'remarkable'
 import GET_TOPIC_NAMES_AND_IDS from '../../queries/GetTopicNamesAndIds'
 import Loading from '../../components/Loading'
 
+const md = new Remarkable()
+
 const useStyles = makeStyles({  
   select: {
-    width: '100%',
-    marginLeft: 8
+    width: '100%'
   }
 })
 
 const PostForm = ({title, setTitle, topicId, setTopicId, content, setContent, handleSubmit}) => {
   const classes = useStyles()
-
   const { loading, error, data } = useQuery(GET_TOPIC_NAMES_AND_IDS)
 
   if (loading) return <Loading />
@@ -26,7 +35,6 @@ const PostForm = ({title, setTitle, topicId, setTopicId, content, setContent, ha
       <TextField
         id="title"
         label="Title"
-        style={{ margin: 8 }}
         placeholder="Title here"
         helperText="The title of the post"
         fullWidth
@@ -61,14 +69,16 @@ const PostForm = ({title, setTitle, topicId, setTopicId, content, setContent, ha
           onChange={e => setContent(e.target.value)}
           value={content}
           InputLabelProps={{
-              shrink: true,
+            shrink: true,
           }}
         />
       </FormControl>
+      <Typography mt={2} variant="h5" mb={2}>Preview</Typography>
+      <Box my={2} dangerouslySetInnerHTML={{__html:md.render(content)}}>
+      </Box>
       <Button 
         variant="contained" 
         color="primary" 
-        style={{ marginBottom: 20 }}
         onClick={handleSubmit}
       >
         Add Post
