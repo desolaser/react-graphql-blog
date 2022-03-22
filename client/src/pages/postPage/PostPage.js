@@ -26,7 +26,7 @@ const useStyles = makeStyles({
 })
 
 const PostPage = props => {
-  const auth = useSelector()
+  const auth = useSelector(store => store.auth)
   const classes = useStyles()
   const postId = props.match.params.id
 
