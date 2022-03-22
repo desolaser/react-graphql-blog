@@ -20,10 +20,9 @@ app.use(cors())
 mongoose.connect('mongodb+srv://admin:666334ss@mongotest-cvjig.gcp.mongodb.net/test?retryWrites=true&w=majority')
 mongoose.connection.once('open', () => console.log('Connected to database'))
 
-// Handles graphql requests
 app.use('/graphql', auth, graphqlHTTP(req => ({
-    schema,  // passes the schema
-    graphiql: true, // activates graphiql
+    schema,
+    graphiql: true,
     context: {
         user: req.user
     }
