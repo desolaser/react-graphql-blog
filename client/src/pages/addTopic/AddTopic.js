@@ -28,8 +28,6 @@ const AddTopic = () => {
     } })
 
     setName("")
-
-    console.log(data)
     alert("Topic added.")
   }
 
