@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { useQuery } from '@apollo/client'
 import { List } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
@@ -24,7 +25,8 @@ const useStyles = makeStyles({
   }
 })
 
-const PostPage = props => {    
+const PostPage = props => {
+  const auth = useSelector()
   const classes = useStyles()
   const postId = props.match.params.id
 
@@ -38,7 +40,7 @@ const PostPage = props => {
   return (
     <div className={classes.root}>
       <Post post={data.post}/>
-      <CommentForm postId={postId} />
+      {auth.user && <CommentForm postId={postId} />}
       <List component="nav">
         {data.post.comments.map(comment => 
           <Comment key={comment.id} comment={comment} />)}
