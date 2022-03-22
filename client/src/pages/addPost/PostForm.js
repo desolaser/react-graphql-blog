@@ -1,6 +1,6 @@
 import React from 'react'
 import { useQuery } from '@apollo/client'
-import { FormControl, InputLabel, TextField, Button, Select, MenuItem } from '@material-ui/core'
+import { FormControl, InputLabel, TextField, Button, Select, MenuItem, TextareaAutosize } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 
 import GET_TOPIC_NAMES_AND_IDS from '../../queries/GetTopicNamesAndIds'
@@ -47,28 +47,31 @@ const PostForm = ({title, setTitle, topicId, setTopicId, content, setContent, ha
         >
           {data.topics.map(topic => <MenuItem key={topic.id} value={topic.id}>{topic.name}</MenuItem>)}
         </Select>
-      </FormControl>     
-      <TextField
+      </FormControl>
+      <FormControl className={classes.select}>
+        <TextField
           id="content"
           label="Content"
-          style={{ margin: 8 }}
-          placeholder="Content here"
+          placeholder="Write the content of the post here"
           helperText="The content of the post"
           fullWidth
           margin="normal"
+          multiline
+          rows={10}
           onChange={e => setContent(e.target.value)}
           value={content}
           InputLabelProps={{
               shrink: true,
           }}
-      />
+        />
+      </FormControl>
       <Button 
-          variant="contained" 
-          color="primary" 
-          style={{ marginBottom: 20 }}
-          onClick={handleSubmit}
+        variant="contained" 
+        color="primary" 
+        style={{ marginBottom: 20 }}
+        onClick={handleSubmit}
       >
-          Add Post
+        Add Post
       </Button>
     </>
   )
